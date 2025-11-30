@@ -1,0 +1,17 @@
+# backend golang + golang build input
+backend/bin/
+backend/tmp/
+backend/vendor/
+backend/.env
+
+backend/*.log
+backend/*.exe
+backend/*.exe~
+backend/*.dll
+backend/*.so
+backend/*.dylib
+backend/*.test
+backend/*.out
+
+backend/.vscode/
+Thumbs.db
