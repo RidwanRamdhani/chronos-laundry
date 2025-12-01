@@ -29,8 +29,7 @@ type Transaction struct {
 	Status          TransactionStatus    `gorm:"default:'antrian'" json:"status"`
 	TotalWeight     float64              `json:"total_weight"` // in kg
 	TotalPrice      float64              `json:"total_price"`
-	PaymentStatus   string               `gorm:"default:'pending'" json:"payment_status"` // pending, completed, failed
-	PaymentMethod   string               `json:"payment_method"`                          // cash, transfer, etc
+	IsPaid          bool                 `gorm:"default:false" json:"is_paid"`
 	PickupDate      datatypes.Date       `json:"pickup_date"`
 	CompletedAt     *time.Time           `json:"completed_at"`
 	AdminID         uint                 `json:"admin_id"`
