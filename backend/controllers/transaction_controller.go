@@ -42,16 +42,6 @@ type CreateTransactionItemRequest struct {
 }
 
 // CreateTransaction creates a new transaction
-// @Summary Create Transaction
-// @Description Create a new laundry transaction (admin only)
-// @Tags Transactions
-// @Security Bearer
-// @Accept json
-// @Produce json
-// @Param body body CreateTransactionRequest true "Transaction data"
-// @Success 201 {object} utils.Response
-// @Failure 400 {object} utils.Response
-// @Router /api/v1/transactions [post]
 func (c *TransactionController) CreateTransaction(ctx *gin.Context) {
 	var req CreateTransactionRequest
 	if err := ctx.ShouldBindJSON(&req); err != nil {
@@ -117,16 +107,7 @@ func (c *TransactionController) CreateTransaction(ctx *gin.Context) {
 	})
 }
 
-// GetTransaction retrieves a transaction by ID (admin only)
-// @Summary Get Transaction
-// @Description Get transaction details by ID
-// @Tags Transactions
-// @Security Bearer
-// @Produce json
-// @Param id path int true "Transaction ID"
-// @Success 200 {object} utils.Response
-// @Failure 404 {object} utils.Response
-// @Router /api/v1/transactions/{id} [get]
+// GetTransaction retrieves a transaction by ID
 func (c *TransactionController) GetTransaction(ctx *gin.Context) {
 	id, err := strconv.ParseUint(ctx.Param("id"), 10, 32)
 	if err != nil {
@@ -143,16 +124,7 @@ func (c *TransactionController) GetTransaction(ctx *gin.Context) {
 	utils.SuccessResponse(ctx, http.StatusOK, "Transaction retrieved successfully", transaction)
 }
 
-// TrackTransaction retrieves transaction status by code (public, no auth required)
-// @Summary Track Transaction
-// @Description Get transaction status by entering transaction code
-// @Tags Transactions
-// @Accept json
-// @Produce json
-// @Param code path string true "Transaction Code (e.g., CHRN-20251201-ABC12)"
-// @Success 200 {object} utils.Response
-// @Failure 404 {object} utils.Response
-// @Router /api/v1/track/{code} [get]
+// TrackTransaction retrieves transaction status by code
 func (c *TransactionController) TrackTransaction(ctx *gin.Context) {
 	code := ctx.Param("code")
 	if code == "" {
@@ -193,18 +165,7 @@ type UpdateTransactionRequest struct {
 	IsPaid          *bool   `json:"is_paid"` // pointer to distinguish between false and not provided
 }
 
-// UpdateTransaction updates a transaction (admin only)
-// @Summary Update Transaction
-// @Description Update transaction details
-// @Tags Transactions
-// @Security Bearer
-// @Accept json
-// @Produce json
-// @Param id path int true "Transaction ID"
-// @Param body body UpdateTransactionRequest true "Update data"
-// @Success 200 {object} utils.Response
-// @Failure 404 {object} utils.Response
-// @Router /api/v1/transactions/{id} [put]
+// UpdateTransaction updates a transaction
 func (c *TransactionController) UpdateTransaction(ctx *gin.Context) {
 	id, err := strconv.ParseUint(ctx.Param("id"), 10, 32)
 	if err != nil {
@@ -260,19 +221,7 @@ type UpdateStatusRequest struct {
 	Reason    string `json:"reason"`
 }
 
-// UpdateTransactionStatus updates transaction status (admin only)
-// @Summary Update Transaction Status
-// @Description Update transaction status with workflow validation
-// @Tags Transactions
-// @Security Bearer
-// @Accept json
-// @Produce json
-// @Param id path int true "Transaction ID"
-// @Param body body UpdateStatusRequest true "Status update data"
-// @Success 200 {object} utils.Response
-// @Failure 400 {object} utils.Response
-// @Failure 404 {object} utils.Response
-// @Router /api/v1/transactions/{id}/status [patch]
+// UpdateTransactionStatus updates transaction status
 func (c *TransactionController) UpdateTransactionStatus(ctx *gin.Context) {
 	id, err := strconv.ParseUint(ctx.Param("id"), 10, 32)
 	if err != nil {
@@ -310,15 +259,7 @@ func (c *TransactionController) UpdateTransactionStatus(ctx *gin.Context) {
 	})
 }
 
-// DeleteTransaction deletes a transaction (admin only)
-// @Summary Delete Transaction
-// @Description Delete a transaction
-// @Tags Transactions
-// @Security Bearer
-// @Param id path int true "Transaction ID"
-// @Success 200 {object} utils.Response
-// @Failure 404 {object} utils.Response
-// @Router /api/v1/transactions/{id} [delete]
+// DeleteTransaction deletes a transaction
 func (c *TransactionController) DeleteTransaction(ctx *gin.Context) {
 	id, err := strconv.ParseUint(ctx.Param("id"), 10, 32)
 	if err != nil {
@@ -335,17 +276,7 @@ func (c *TransactionController) DeleteTransaction(ctx *gin.Context) {
 	utils.SuccessResponse(ctx, http.StatusOK, "Transaction deleted successfully", nil)
 }
 
-// GetAllTransactions retrieves all transactions with pagination and filtering (admin only)
-// @Summary Get All Transactions
-// @Description Get all transactions with pagination and optional status filter
-// @Tags Transactions
-// @Security Bearer
-// @Produce json
-// @Param page query int false "Page number (default: 1)"
-// @Param limit query int false "Items per page (default: 10)"
-// @Param status query string false "Filter by status"
-// @Success 200 {object} utils.Response
-// @Router /api/v1/transactions [get]
+// GetAllTransactions retrieves all transactions with pagination and filtering
 func (c *TransactionController) GetAllTransactions(ctx *gin.Context) {
 	page := 1
 	limit := 10
@@ -383,14 +314,7 @@ func (c *TransactionController) GetAllTransactions(ctx *gin.Context) {
 	})
 }
 
-// GetDashboard returns dashboard statistics (admin only)
-// @Summary Get Dashboard Stats
-// @Description Get transaction statistics for dashboard
-// @Tags Dashboard
-// @Security Bearer
-// @Produce json
-// @Success 200 {object} utils.Response
-// @Router /api/v1/dashboard/stats [get]
+// GetDashboard returns dashboard statistics
 func (c *TransactionController) GetDashboard(ctx *gin.Context) {
 	stats, err := c.transactionService.GetDashboardStats()
 	if err != nil {
