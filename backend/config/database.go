@@ -44,6 +44,8 @@ func AutoMigrate() error {
 	return DB.AutoMigrate(
 		&models.Admin{},
 		&models.Transaction{},
+		&models.TransactionItem{},
+		&models.TransactionHistory{},
 	)
 }
 
