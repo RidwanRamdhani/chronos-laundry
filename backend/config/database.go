@@ -19,12 +19,13 @@ func InitDB() error {
 	dbPort := getEnv("DB_PORT")
 	dbName := getEnv("DB_NAME")
 
-	if dbUser == "" || dbPassword == "" || dbHost == "" || dbPort == "" || dbName == "" {
+	// Password can be empty, but other variables must be set
+	if dbUser == "" || dbHost == "" || dbPort == "" || dbName == "" {
 		return fmt.Errorf("database environment variables not fully set")
 	}
 
 	dsn := fmt.Sprintf(
-		"%s:%s@tcp(%s:%s)/%s?charset=utf8mb4&parseTime=True&loc=Local",
+		"%s:%s@tcp(%s:%s)/%s?charset=utf8mb4&parseTime=True&loc=Local&allowNativePasswords=true",
 		dbUser, dbPassword, dbHost, dbPort, dbName,
 	)
 

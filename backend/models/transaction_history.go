@@ -4,9 +4,9 @@ package models
 type TransactionHistory struct {
 	ID             uint              `gorm:"primaryKey" json:"id"`
 	TransactionID  uint              `gorm:"not null;index" json:"transaction_id"`
-	PreviousStatus TransactionStatus `json:"previous_status"`
-	NewStatus      TransactionStatus `gorm:"not null" json:"new_status"`
-	ChangedBy      string            `json:"changed_by"` // admin username
+	PreviousStatus TransactionStatus `gorm:"type:varchar(20)" json:"previous_status"`
+	NewStatus      TransactionStatus `gorm:"type:varchar(20);not null" json:"new_status"`
+	ChangedBy      string            `gorm:"type:varchar(255)" json:"changed_by"` // admin username
 	Reason         string            `gorm:"type:text" json:"reason"`
 
 	CreatedAt int64 `gorm:"autoCreateTime:milli" json:"created_at"`

@@ -8,9 +8,15 @@ import (
 	"github.com/RidwanRamdhani/chronos-laundry/backend/repositories"
 	"github.com/RidwanRamdhani/chronos-laundry/backend/routes"
 	"github.com/RidwanRamdhani/chronos-laundry/backend/services"
+	"github.com/joho/godotenv"
 )
 
 func main() {
+	// Load .env file
+	if err := godotenv.Load(); err != nil {
+		log.Println("Warning: .env file not found, using system environment variables")
+	}
+
 	// Initialize DB connection
 	if err := config.InitDB(); err != nil {
 		log.Fatalf("Database initialization failed: %v", err)
