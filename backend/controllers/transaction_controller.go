@@ -28,7 +28,6 @@ type CreateTransactionRequest struct {
 	CustomerPhone   string                         `json:"customer_phone" binding:"required"`
 	CustomerAddress string                         `json:"customer_address"`
 	Notes           string                         `json:"notes"`
-	TotalPrice      float64                        `json:"total_price" binding:"required"`
 	PickupDate      string                         `json:"pickup_date"`
 	Items           []CreateTransactionItemRequest `json:"items" binding:"required,min=1"`
 }
@@ -60,16 +59,20 @@ func (c *TransactionController) CreateTransaction(ctx *gin.Context) {
 		pickupDate = datatypes.Date(parsedDate)
 	}
 
-	// Create transaction items
+	// Create transaction items and calculate total price
 	items := make([]models.TransactionItem, len(req.Items))
+	var calculatedTotalPrice float64
+
 	for i, item := range req.Items {
+		subtotal := float64(item.Quantity) * item.UnitPrice
 		items[i] = models.TransactionItem{
 			ServiceType: item.ServiceType,
 			ItemName:    item.ItemName,
 			Quantity:    item.Quantity,
 			UnitPrice:   item.UnitPrice,
-			Subtotal:    float64(item.Quantity) * item.UnitPrice,
+			Subtotal:    subtotal,
 		}
+		calculatedTotalPrice += subtotal
 	}
 
 	// Get admin ID from context (set by auth middleware)
@@ -78,13 +81,13 @@ func (c *TransactionController) CreateTransaction(ctx *gin.Context) {
 		adminID = id.(uint)
 	}
 
-	// Create transaction
+	// Create transaction with calculated total price
 	transaction := &models.Transaction{
 		CustomerName:    req.CustomerName,
 		CustomerPhone:   req.CustomerPhone,
 		CustomerAddress: req.CustomerAddress,
 		Notes:           req.Notes,
-		TotalPrice:      req.TotalPrice,
+		TotalPrice:      calculatedTotalPrice,
 		PickupDate:      pickupDate,
 		Items:           items,
 		AdminID:         adminID,
