@@ -11,11 +11,11 @@ import (
 type TransactionStatus string
 
 const (
-	StatusAntrian     TransactionStatus = "antrian"      // Queued
-	StatusMencuci     TransactionStatus = "mencuci"      // Washing
-	StatusMenyetrika  TransactionStatus = "menyetrika"   // Ironing
-	StatusSiapDiambil TransactionStatus = "siap_diambil" // Ready to pick up
-	StatusSelesai     TransactionStatus = "selesai"      // Completed
+	StatusQueued        TransactionStatus = "Queued"           // Queued
+	StatusWashing       TransactionStatus = "Washing"          // Washing
+	StatusIroning       TransactionStatus = "Ironing"          // Ironing
+	StatusReadytoPickup TransactionStatus = "Ready to pick up" // Ready to pick up
+	StatusCompleted     TransactionStatus = "Completed"        // Completed
 )
 
 // Transaction represents a laundry transaction

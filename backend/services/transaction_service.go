@@ -31,7 +31,7 @@ func (s *TransactionService) CreateTransaction(transaction *models.Transaction) 
 	transaction.TransactionCode = utils.GenerateTransactionCode()
 
 	// Set initial status to Antrian
-	transaction.Status = models.StatusAntrian
+	transaction.Status = models.StatusQueued
 
 	// Create transaction
 	err := s.transactionRepo.CreateTransaction(transaction)
@@ -43,7 +43,7 @@ func (s *TransactionService) CreateTransaction(transaction *models.Transaction) 
 	history := &models.TransactionHistory{
 		TransactionID:  transaction.ID,
 		PreviousStatus: "",
-		NewStatus:      models.StatusAntrian,
+		NewStatus:      models.StatusQueued,
 		ChangedBy:      "system",
 		Reason:         "Transaction created",
 	}
@@ -142,11 +142,11 @@ func (s *TransactionService) GetAllTransactions(limit, offset int, status string
 // isValidStatusTransition checks if a status transition is valid
 func isValidStatusTransition(currentStatus, newStatus models.TransactionStatus) bool {
 	validTransitions := map[models.TransactionStatus][]models.TransactionStatus{
-		models.StatusAntrian:     {models.StatusMencuci, models.StatusSelesai},     // Antrian -> Mencuci or Selesai (cancel)
-		models.StatusMencuci:     {models.StatusMenyetrika, models.StatusSelesai},  // Mencuci -> Menyetrika or Selesai (cancel)
-		models.StatusMenyetrika:  {models.StatusSiapDiambil, models.StatusSelesai}, // Menyetrika -> SiapDiambil or Selesai (cancel)
-		models.StatusSiapDiambil: {models.StatusSelesai},                           // SiapDiambil -> Selesai
-		models.StatusSelesai:     {},                                               // Selesai is final state
+		models.StatusQueued:        {models.StatusWashing, models.StatusCompleted},       // Antrian -> Mencuci or Selesai (cancel)
+		models.StatusWashing:       {models.StatusIroning, models.StatusCompleted},       // Mencuci -> Menyetrika or Selesai (cancel)
+		models.StatusIroning:       {models.StatusReadytoPickup, models.StatusCompleted}, // Menyetrika -> SiapDiambil or Selesai (cancel)
+		models.StatusReadytoPickup: {models.StatusCompleted},                             // SiapDiambil -> Selesai
+		models.StatusCompleted:     {},                                                   // Selesai is final state
 	}
 
 	transitions, exists := validTransitions[currentStatus]
@@ -166,11 +166,11 @@ func isValidStatusTransition(currentStatus, newStatus models.TransactionStatus) 
 func (s *TransactionService) GetDashboardStats() (map[string]interface{}, error) {
 	stats := make(map[string]interface{})
 
-	antrian, _ := s.transactionRepo.CountTransactionsByStatus(models.StatusAntrian)
-	mencuci, _ := s.transactionRepo.CountTransactionsByStatus(models.StatusMencuci)
-	menyetrika, _ := s.transactionRepo.CountTransactionsByStatus(models.StatusMenyetrika)
-	siapDiambil, _ := s.transactionRepo.CountTransactionsByStatus(models.StatusSiapDiambil)
-	selesai, _ := s.transactionRepo.CountTransactionsByStatus(models.StatusSelesai)
+	antrian, _ := s.transactionRepo.CountTransactionsByStatus(models.StatusQueued)
+	mencuci, _ := s.transactionRepo.CountTransactionsByStatus(models.StatusWashing)
+	menyetrika, _ := s.transactionRepo.CountTransactionsByStatus(models.StatusIroning)
+	siapDiambil, _ := s.transactionRepo.CountTransactionsByStatus(models.StatusReadytoPickup)
+	selesai, _ := s.transactionRepo.CountTransactionsByStatus(models.StatusCompleted)
 
 	stats["antrian"] = antrian
 	stats["mencuci"] = mencuci
