@@ -47,6 +47,7 @@ func AutoMigrate() error {
 		&models.Transaction{},
 		&models.TransactionItem{},
 		&models.TransactionHistory{},
+		&models.ServicePrice{},
 	)
 }
 

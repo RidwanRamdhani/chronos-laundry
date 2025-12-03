@@ -1,6 +1,7 @@
 package controllers
 
 import (
+	"fmt"
 	"net/http"
 	"strconv"
 	"time"
@@ -14,12 +15,16 @@ import (
 
 // TransactionController handles transaction endpoints
 type TransactionController struct {
-	transactionService *services.TransactionService
+	transactionService  *services.TransactionService
+	servicePriceService *services.ServicePriceService
 }
 
 // NewTransactionController creates a new transaction controller
-func NewTransactionController(transactionService *services.TransactionService) *TransactionController {
-	return &TransactionController{transactionService: transactionService}
+func NewTransactionController(transactionService *services.TransactionService, servicePriceService *services.ServicePriceService) *TransactionController {
+	return &TransactionController{
+		transactionService:  transactionService,
+		servicePriceService: servicePriceService,
+	}
 }
 
 // CreateTransactionRequest represents a create transaction request
@@ -64,6 +69,18 @@ func (c *TransactionController) CreateTransaction(ctx *gin.Context) {
 	var calculatedTotalPrice float64
 
 	for i, item := range req.Items {
+		// Validate price against database
+		isValid, correctPrice, err := c.servicePriceService.ValidatePrice(item.ServiceType, item.ItemName, item.UnitPrice)
+		if err != nil {
+			utils.BadRequest(ctx, "Price validation failed: "+err.Error())
+			return
+		}
+		if !isValid {
+			utils.BadRequest(ctx, fmt.Sprintf("Invalid price for %s - %s. Expected: Rp %.0f, Got: Rp %.0f",
+				item.ServiceType, item.ItemName, correctPrice, item.UnitPrice))
+			return
+		}
+
 		subtotal := float64(item.Quantity) * item.UnitPrice
 		items[i] = models.TransactionItem{
 			ServiceType: item.ServiceType,

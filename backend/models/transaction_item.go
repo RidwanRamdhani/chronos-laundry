@@ -1,6 +1,10 @@
 package models
 
-import "gorm.io/gorm"
+import (
+	"time"
+
+	"gorm.io/gorm"
+)
 
 // TransactionItem represents an item in a transaction
 type TransactionItem struct {
@@ -12,8 +16,8 @@ type TransactionItem struct {
 	UnitPrice     float64 `json:"unit_price"`
 	Subtotal      float64 `json:"subtotal"`
 
-	CreatedAt int64          `gorm:"autoCreateTime:milli" json:"created_at"`
-	UpdatedAt int64          `gorm:"autoUpdateTime:milli" json:"updated_at"`
+	CreatedAt time.Time      `json:"created_at"`
+	UpdatedAt time.Time      `json:"updated_at"`
 	DeletedAt gorm.DeletedAt `gorm:"index" json:"-"`
 }
 

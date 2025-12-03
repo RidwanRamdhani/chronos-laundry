@@ -36,8 +36,8 @@ type Transaction struct {
 	Items           []TransactionItem    `gorm:"foreignKey:TransactionID" json:"items"`
 	StatusHistory   []TransactionHistory `gorm:"foreignKey:TransactionID" json:"status_history"`
 
-	CreatedAt int64          `gorm:"autoCreateTime:milli" json:"created_at"`
-	UpdatedAt int64          `gorm:"autoUpdateTime:milli" json:"updated_at"`
+	CreatedAt time.Time      `json:"created_at"`
+	UpdatedAt time.Time      `json:"updated_at"`
 	DeletedAt gorm.DeletedAt `gorm:"index" json:"-"`
 }
 

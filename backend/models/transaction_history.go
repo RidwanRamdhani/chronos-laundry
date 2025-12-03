@@ -1,5 +1,7 @@
 package models
 
+import "time"
+
 // TransactionHistory tracks status changes of a transaction
 type TransactionHistory struct {
 	ID             uint              `gorm:"primaryKey" json:"id"`
@@ -9,7 +11,7 @@ type TransactionHistory struct {
 	ChangedBy      string            `gorm:"type:varchar(255)" json:"changed_by"` // admin username
 	Reason         string            `gorm:"type:text" json:"reason"`
 
-	CreatedAt int64 `gorm:"autoCreateTime:milli" json:"created_at"`
+	CreatedAt time.Time `json:"created_at"`
 }
 
 // TableName specifies the table name for TransactionHistory model

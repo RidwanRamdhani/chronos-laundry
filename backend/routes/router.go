@@ -8,6 +8,7 @@ import (
 func SetupRouter(
 	authController *controllers.AuthController,
 	transactionController *controllers.TransactionController,
+	servicePriceController *controllers.ServicePriceController,
 ) *gin.Engine {
 
 	r := gin.Default()
@@ -19,6 +20,9 @@ func SetupRouter(
 
 	// Transactions
 	TransactionRoutes(api, transactionController)
+
+	// Service Prices
+	SetupServicePriceRoutes(r, servicePriceController)
 
 	return r
 }

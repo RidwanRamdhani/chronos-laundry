@@ -1,6 +1,10 @@
 package models
 
-import "gorm.io/gorm"
+import (
+	"time"
+
+	"gorm.io/gorm"
+)
 
 // Admin represents an admin user in the system
 type Admin struct {
@@ -10,8 +14,8 @@ type Admin struct {
 	Email    string `gorm:"type:varchar(255);uniqueIndex" json:"email"`
 	FullName string `gorm:"type:varchar(255)" json:"full_name"`
 
-	CreatedAt int64          `gorm:"autoCreateTime:milli" json:"created_at"`
-	UpdatedAt int64          `gorm:"autoUpdateTime:milli" json:"updated_at"`
+	CreatedAt time.Time      `json:"created_at"`
+	UpdatedAt time.Time      `json:"updated_at"`
 	DeletedAt gorm.DeletedAt `gorm:"index" json:"-"`
 }
 

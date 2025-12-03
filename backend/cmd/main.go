@@ -28,16 +28,19 @@ func main() {
 	adminRepo := repositories.NewAdminRepository(db)
 	transactionRepo := repositories.NewTransactionRepository(db)
 	historyRepo := repositories.NewTransactionHistoryRepository(db)
+	servicePriceRepo := repositories.NewServicePriceRepository(db)
 
 	// Services
 	authService := services.NewAuthService(adminRepo)
 	transactionService := services.NewTransactionService(transactionRepo, historyRepo)
+	servicePriceService := services.NewServicePriceService(servicePriceRepo)
 
 	// Controllers
 	authController := controllers.NewAuthController(authService)
-	transactionController := controllers.NewTransactionController(transactionService)
+	transactionController := controllers.NewTransactionController(transactionService, servicePriceService)
+	servicePriceController := controllers.NewServicePriceController(servicePriceService)
 
 	// Router
-	r := routes.SetupRouter(authController, transactionController)
+	r := routes.SetupRouter(authController, transactionController, servicePriceController)
 	r.Run(":8080")
 }
