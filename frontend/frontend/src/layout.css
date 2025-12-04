@@ -1,0 +1,15 @@
+#sidebar {
+    transition: width 0.25s ease;
+}
+
+#sidebar.collapsed {
+    width: 70px;
+}
+
+#sidebar.collapsed .nav-link {
+    font-size: 0;
+}
+
+#sidebar.collapsed h4 {
+    font-size: 0;
+}

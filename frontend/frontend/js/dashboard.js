@@ -2,9 +2,6 @@ import { API_BASE, getToken, requireAuth, logout } from "./src/main.js";
 
 requireAuth();  // pastikan sudah login
 
-const adminName = document.getElementById("adminName");
-const logoutBtn = document.getElementById("logoutBtn");
-
 adminName.textContent = localStorage.getItem("admin_fullname") || "";
 
 logoutBtn.addEventListener("click", () => logout());

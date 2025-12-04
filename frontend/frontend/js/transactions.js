@@ -2,12 +2,6 @@ import { API_BASE, requireAuth, getToken, logout } from "./src/main.js";
 
 requireAuth();
 
-// UI elements
-const adminName = document.getElementById("adminName");
-adminName.textContent = localStorage.getItem("admin_fullname") || "";
-
-document.getElementById("logoutBtn").addEventListener("click", () => logout());
-
 const tableBody = document.getElementById("transactionTable");
 const statusFilter = document.getElementById("statusFilter");
 const applyFilterBtn = document.getElementById("applyFilterBtn");

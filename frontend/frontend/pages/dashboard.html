@@ -9,26 +9,24 @@
         href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" 
         rel="stylesheet"
     />
+
+    <!-- Layout styling (optional but recommended) -->
+    <link rel="stylesheet" href="/src/layout.css">
 </head>
 
 <body class="bg-light">
 
-    <!-- Navbar -->
-    <nav class="navbar navbar-expand-lg navbar-dark bg-primary px-3">
-        <a class="navbar-brand fw-bold" href="#">Chronos Laundry</a>
-        <div class="ms-auto">
-            <span class="text-white me-3" id="adminName"></span>
-            <button class="btn btn-light btn-sm" id="logoutBtn">Logout</button>
-        </div>
-    </nav>
+    <!-- Layout Sidebar + Navbar injected here -->
+    <div id="layout"></div>
 
-    <!-- Content -->
-    <div class="container py-4">
+    <!-- Page Content -->
+    <div class="page-content container py-4">
+
         <h3 class="mb-4">Dashboard</h3>
 
         <div class="row" id="statsContainer">
 
-            <!-- Total -->
+            <!-- Total Transaksi -->
             <div class="col-md-4 mb-3">
                 <div class="card shadow-sm">
                     <div class="card-body text-center">
@@ -89,8 +87,13 @@
             </div>
 
         </div>
+
     </div>
 
+    <!-- Scripts -->
+    <script type="module" src="/js/layout.js"></script>
     <script type="module" src="/js/dashboard.js"></script>
+
 </body>
 </html>
+
