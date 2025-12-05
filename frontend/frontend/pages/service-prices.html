@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Harga Layanan - Chronos Laundry</title>
+
+    <link 
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+        rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/src/layout.css">
+</head>
+
+<body class="bg-light">
+
+    <!-- Sidebar + navbar -->
+    <div id="layout"></div>
+
+    <!-- Page Content -->
+    <div class="page-content container py-4">
+
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <h3>Harga Layanan</h3>
+            <a href="./service-price-create.html" class="btn btn-success">+ Tambah Harga</a>
+        </div>
+
+        <div class="card shadow-sm">
+            <div class="card-body">
+
+                <table class="table table-bordered table-striped">
+                    <thead class="table-primary">
+                        <tr>
+                            <th>Jenis Layanan</th>
+                            <th>Item</th>
+                            <th>Harga</th>
+                            <th>Aksi</th>
+                        </tr>
+                    </thead>
+                    <tbody id="priceTable">
+                        <tr><td colspan="4" class="text-center">Loading...</td></tr>
+                    </tbody>
+                </table>
+
+            </div>
+        </div>
+
+    </div>
+
+    <script type="module" src="/js/layout.js"></script>
+    <script type="module" src="/js/service-prices.js"></script>
+</body>
+</html>

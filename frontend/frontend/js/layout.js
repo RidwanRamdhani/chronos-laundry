@@ -1,4 +1,4 @@
-import { requireAuth, logout } from "../main.js";
+import { requireAuth, logout } from "./src/main.js";
 
 // Pastikan user sudah login
 requireAuth();
