@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Detail Transaksi - Chronos Laundry</title>
+
+    <link 
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" 
+        rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/css/layout.css">
+</head>
+<body class="bg-light">
+
+    <!-- Sidebar + Navbar injected automatically -->
+    <div id="layout"></div>
+
+    <!-- Page Content -->
+    <div class="page-content container py-4">
+
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <h3>Detail Transaksi</h3>
+            <a href="./transactions.html" class="btn btn-secondary">Kembali</a>
+        </div>
+
+        <!-- Transaction Info -->
+        <div class="card shadow-sm mb-4">
+            <div class="card-body">
+
+                <h5 class="mb-3">Informasi Customer</h5>
+
+                <div class="row">
+                    <div class="col-md-4">
+                        <p><strong>Nama:</strong> <span id="customerName">-</span></p>
+                    </div>
+                    <div class="col-md-4">
+                        <p><strong>Telepon:</strong> <span id="customerPhone">-</span></p>
+                    </div>
+                    <div class="col-md-4">
+                        <p><strong>Tanggal Pickup:</strong> <span id="pickupDate">-</span></p>
+                    </div>
+                </div>
+
+                <p><strong>Alamat:</strong><br><span id="customerAddress">-</span></p>
+                <p><strong>Catatan:</strong><br><span id="notes">-</span></p>
+
+            </div>
+        </div>
+
+        <!-- Items -->
+        <div class="card shadow-sm mb-4">
+            <div class="card-body">
+                <h5 class="mb-3">Detail Cucian</h5>
+
+                <table class="table table-bordered table-striped">
+                    <thead class="table-secondary">
+                        <tr>
+                            <th>Jenis Layanan</th>
+                            <th>Item</th>
+                            <th>Qty</th>
+                            <th>Harga</th>
+                            <th>Subtotal</th>
+                        </tr>
+                    </thead>
+
+                    <tbody id="itemTable">
+                        <tr><td colspan="5" class="text-center">Loading...</td></tr>
+                    </tbody>
+                </table>
+
+                <h4 class="text-end mt-3">
+                    Total: Rp <span id="totalPrice">0</span>
+                </h4>
+
+            </div>
+        </div>
+
+        <!-- Status -->
+        <div class="card shadow-sm mb-4">
+            <div class="card-body d-flex justify-content-between align-items-center">
+
+                <div>
+                    <h5>Status Transaksi</h5>
+                    <p class="fst-italic">
+                        <strong>Status:</strong> <span id="statusText" class="badge bg-primary"></span>
+                    </p>
+                    <p><strong>Pembayaran:</strong> <span id="paymentStatus"></span></p>
+                </div>
+
+                <div class="text-end">
+
+                    <a class="btn btn-warning mb-2 w-100" id="editBtn">
+                        Edit Transaksi
+                    </a>
+
+                    <button class="btn btn-primary mb-2 w-100" id="advanceStatusBtn">
+                        Update Status → Berikutnya
+                    </button>
+
+                    <button class="btn btn-danger w-100" id="deleteBtn">
+                        Hapus Transaksi
+                    </button>
+
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+
+    <script type="module" src="/js/layout.js"></script>
+    <script type="module" src="/js/transaction-detail.js"></script>
+
+</body>
+</html>
