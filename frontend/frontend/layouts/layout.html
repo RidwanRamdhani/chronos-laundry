@@ -1,7 +1,8 @@
 <div class="d-flex" id="appLayout">
 
-    <!-- Sidebar -->
-    <aside id="sidebar" class="bg-dark text-white p-3" style="width: 250px; min-height: 100vh;">
+    <!-- SIDEBAR -->
+    <aside id="sidebar" class="bg-dark text-white p-3"
+           style="width: 250px; min-height: 100vh;">
         <h4 class="text-center mb-4">Chronos Laundry</h4>
 
         <ul class="nav flex-column gap-1" id="sidebarMenu">
@@ -27,10 +28,10 @@
         </ul>
     </aside>
 
-    <!-- Main Content -->
-    <div class="flex-grow-1">
+    <!-- RIGHT SIDE (Navbar + Main Content) -->
+    <div class="flex-grow-1 d-flex flex-column" style="min-height: 100vh;">
 
-        <!-- Top Navbar -->
+        <!-- NAVBAR -->
         <nav class="navbar navbar-light bg-white shadow-sm px-3">
             <button class="btn btn-outline-secondary" id="toggleSidebar">
                 ☰
@@ -41,6 +42,11 @@
                 <button class="btn btn-sm btn-danger" id="layoutLogoutBtn">Logout</button>
             </div>
         </nav>
+
+        <!-- MAIN CONTENT WRAPPER for pages -->
+        <main id="layoutMain" class="flex-grow-1 p-4">
+            <!-- page content will appear BELOW this section -->
+        </main>
 
     </div>
 

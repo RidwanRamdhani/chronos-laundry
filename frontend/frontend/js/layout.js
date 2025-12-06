@@ -13,7 +13,16 @@ async function loadLayout() {
 
     setupLayoutFunctions();
     highlightActiveMenu();
+
+    // ==== PEMINDAHAN KONTEN HARUS DI SINI ====
+    const pageContent = document.getElementById("pageContent");
+    const layoutMain = document.getElementById("layoutMain");
+
+    if (pageContent && layoutMain) {
+        layoutMain.appendChild(pageContent);
+    }
 }
+
 
 loadLayout();
 
