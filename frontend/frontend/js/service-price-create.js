@@ -1,4 +1,4 @@
-import { API_BASE, requireAuth, getToken } from "./src/main.js";
+import { API_BASE, requireAuth, getToken } from "/src/main.js";
 
 requireAuth();
 
