@@ -1,10 +1,17 @@
-import { API_BASE, getToken, requireAuth, logout } from "./src/main.js";
+import { API_BASE, getToken, requireAuth, logout } from "/src/main.js";
 
 requireAuth();  // pastikan sudah login
 
-adminName.textContent = localStorage.getItem("admin_fullname") || "";
+const adminName = document.getElementById("layoutAdminName");
+const logoutBtn = document.getElementById("layoutLogoutBtn");
 
-logoutBtn.addEventListener("click", () => logout());
+if (adminName) {
+    adminName.textContent = localStorage.getItem("admin_fullname") || "";
+}
+
+if (logoutBtn) {
+    logoutBtn.addEventListener("click", () => logout());
+}
 
 // === Fetch Dashboard Data ===
 async function loadDashboard() {

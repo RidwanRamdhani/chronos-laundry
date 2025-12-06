@@ -10,24 +10,22 @@ if (!trxId) {
     window.location.href = "./transactions.html";
 }
 
-// Elements
-const trxCode = document.getElementById("trxCode");
-const trxStatus = document.getElementById("trxStatus");
-const trxTotal = document.getElementById("trxTotal");
-const trxPaid = document.getElementById("trxPaid");
-const trxPickup = document.getElementById("trxPickup");
+// Elements - Updated to match HTML IDs
+const statusText = document.getElementById("statusText");
+const totalPrice = document.getElementById("totalPrice");
+const paymentStatus = document.getElementById("paymentStatus");
+const pickupDate = document.getElementById("pickupDate");
 
-const custName = document.getElementById("custName");
-const custPhone = document.getElementById("custPhone");
-const custAddress = document.getElementById("custAddress");
-const custNotes = document.getElementById("custNotes");
+const customerName = document.getElementById("customerName");
+const customerPhone = document.getElementById("customerPhone");
+const customerAddress = document.getElementById("customerAddress");
+const notes = document.getElementById("notes");
 
 const itemTable = document.getElementById("itemTable");
-const statusHistory = document.getElementById("statusHistory");
 
 const editBtn = document.getElementById("editBtn");
 const deleteBtn = document.getElementById("deleteBtn");
-const updateStatusBtn = document.getElementById("updateStatusBtn");
+const advanceStatusBtn = document.getElementById("advanceStatusBtn");
 
 // ===============================
 // Load Transaction Detail
@@ -47,19 +45,17 @@ async function loadTransactionDetail() {
 
         const data = result.data;
 
-        trxCode.textContent = data.transaction_code;
-        trxStatus.textContent = data.status;
-        trxTotal.textContent = data.total_price.toLocaleString();
-        trxPaid.textContent = data.is_paid ? "Sudah Dibayar" : "Belum Dibayar";
-        trxPickup.textContent = data.pickup_date;
+        statusText.textContent = data.status;
+        totalPrice.textContent = data.total_price.toLocaleString();
+        paymentStatus.textContent = data.is_paid ? "Sudah Dibayar" : "Belum Dibayar";
+        pickupDate.textContent = data.pickup_date;
 
-        custName.textContent = data.customer_name;
-        custPhone.textContent = data.customer_phone;
-        custAddress.textContent = data.customer_address;
-        custNotes.textContent = data.notes || "-";
+        customerName.textContent = data.customer_name;
+        customerPhone.textContent = data.customer_phone;
+        customerAddress.textContent = data.customer_address;
+        notes.textContent = data.notes || "-";
 
         renderItems(data.items);
-        renderStatusHistory(data.status_history);
 
         editBtn.href = `./transaction-update.html?id=${data.id}`;
 
@@ -83,24 +79,6 @@ function renderItems(items) {
     }).join("");
 }
 
-function renderStatusHistory(history) {
-    if (history.length === 0) {
-        statusHistory.innerHTML = "<li class='list-group-item'>Belum ada riwayat</li>";
-        return;
-    }
-
-    statusHistory.innerHTML = history.map((row) => {
-        return `
-            <li class="list-group-item">
-                <strong>${row.previous_status}</strong> → 
-                <strong>${row.new_status}</strong> <br />
-                <small>Alasan: ${row.reason}</small><br />
-                <small>Oleh: ${row.changed_by}</small><br />
-                <small>${new Date(row.created_at).toLocaleString()}</small>
-            </li>
-        `;
-    }).join("");
-}
 
 // ===============================
 // Delete Transaction
@@ -131,8 +109,8 @@ deleteBtn.addEventListener("click", async () => {
 // ===============================
 // Update Status
 // ===============================
-updateStatusBtn.addEventListener("click", async () => {
-    const statuses = ["antrian", "mencuci", "menyetrika", "siap_diambil", "selesai"];
+advanceStatusBtn.addEventListener("click", async () => {
+    const statuses = ["Queued", "Washing", "Ironing", "Ready to pick up", "Completed"];
 
     const newStatus = prompt("Masukkan status baru:\n" + statuses.join(", "));
 

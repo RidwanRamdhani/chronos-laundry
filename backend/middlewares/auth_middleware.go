@@ -9,6 +9,12 @@ import (
 
 func AuthMiddleware() gin.HandlerFunc {
 	return func(c *gin.Context) {
+		// Allow OPTIONS requests to pass through for CORS preflight
+		if c.Request.Method == "OPTIONS" {
+			c.Next()
+			return
+		}
+
 		authHeader := c.GetHeader("Authorization")
 
 		if authHeader == "" {

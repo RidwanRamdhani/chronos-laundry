@@ -16,6 +16,9 @@ func SetupRouter(
 
 	r := gin.Default()
 
+	// Disable automatic trailing slash redirect to prevent CORS issues
+	r.RedirectTrailingSlash = false
+
 	// CORS Middleware
 	r.Use(cors.New(cors.Config{
 		AllowOrigins:     []string{"http://localhost:5173"},

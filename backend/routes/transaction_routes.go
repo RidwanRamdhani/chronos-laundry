@@ -11,8 +11,8 @@ func TransactionRoutes(rg *gin.RouterGroup, controller *controllers.TransactionC
 	tr.Use(middlewares.AuthMiddleware())
 
 	// CRUD + dashboard
-	tr.POST("/", controller.CreateTransaction)
-	tr.GET("/", controller.GetAllTransactions)
+	tr.POST("", controller.CreateTransaction)
+	tr.GET("", controller.GetAllTransactions)
 	tr.GET("/dashboard", controller.GetDashboard)
 
 	tr.GET("/:id", controller.GetTransaction)
