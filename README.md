@@ -483,7 +483,7 @@ copies or substantial portions of the Software.
 
 ## 💬 Support & Contact
 
-- 📧 **Email**: ridwanramdhani@student.telkomuniversity.ac.id
+- 📧 **Email**: ridwanramdhani@student.telkomuniversity.ac.id, daffarkananta10@gmail.com ,sanubarilegawa@student.telkomuniversity.ac.id
 - 🐛 **Bug Reports**: [GitHub Issues](https://github.com/RidwanRamdhani/chronos-laundry/issues)
 - 💡 **Feature Requests**: [GitHub Discussions](https://github.com/RidwanRamdhani/chronos-laundry/discussions)
 - 📖 **Documentation**: [Wiki](https://github.com/RidwanRamdhani/chronos-laundry/wiki)
