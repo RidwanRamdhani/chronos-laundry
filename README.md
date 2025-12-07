@@ -39,8 +39,6 @@ Chronos Laundry is a comprehensive laundry management solution designed to strea
 
 - **Real-time Dashboard**
   - Transaction overview and statistics
-  - Status monitoring
-  - Quick access to recent activities
 
 - **Customer Tracking**
   - Track laundry status by transaction code
