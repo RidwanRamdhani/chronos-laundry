@@ -200,7 +200,64 @@ exit;
 # The application will auto-migrate tables on startup
 ```
 
-#### 4. Frontend Setup
+#### 4. Database Seeding
+
+The project includes seeders to populate initial data for development and testing.
+
+**Available Seeders:**
+
+1. **Admin Seeder** - Creates default admin account
+2. **Service Price Seeder** - Populates service prices for laundry items
+
+**Running Seeders:**
+
+```bash
+# Navigate to backend directory
+cd backend
+
+# Run Admin Seeder
+go run cmd/seeder/admin_seeder/admin.go
+
+# Run Service Price Seeder
+go run cmd/seeder/service_price_seeder/service_prices.go
+```
+
+**Default Admin Credentials:**
+- **Username**: `admin`
+- **Password**: `admin123`
+- **Email**: `admin@chronos-laundry.com`
+- **Full Name**: System Administrator
+
+⚠️ **Important**: To use custom admin credentials, edit the seeder file at [`backend/cmd/seeder/admin_seeder/admin.go`](backend/cmd/seeder/admin_seeder/admin.go:28) before running the seeder. Modify the username, password, email, and full name values as needed.
+
+**Service Price Categories:**
+
+💡 **Tip**: To customize service prices, edit the seeder file at [`backend/cmd/seeder/service_price_seeder/service_prices.go`](backend/cmd/seeder/service_price_seeder/service_prices.go:25) before running the seeder. You can modify prices, add new items, or change service types as needed.
+
+The service price seeder includes:
+- **Regular Service** (reguler)
+  - Cuci + Setrika (Wash + Iron)
+  - Cuci Saja (Wash Only)
+  - Setrika Saja (Iron Only)
+- **Express Service** (express)
+  - Cuci + Setrika (Wash + Iron)
+  - Cuci Saja (Wash Only)
+  - Setrika Saja (Iron Only)
+
+**Items Covered:**
+- Kemeja (Shirt)
+- Celana (Pants)
+- Jaket (Jacket)
+- Selimut (Blanket)
+- Sprei (Bed Sheet)
+
+**Seeder Features:**
+- ✅ Prevents duplicate entries
+- ✅ Automatically checks existing data
+- ✅ Safe to run multiple times
+- ✅ Provides detailed logging
+
+#### 5. Frontend Setup
 
 ```bash
 # Navigate to frontend directory
