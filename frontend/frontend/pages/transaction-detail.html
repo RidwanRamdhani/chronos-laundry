@@ -5,108 +5,427 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Detail Transaksi - Chronos Laundry</title>
 
-    <link 
-        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" 
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
         rel="stylesheet"
     />
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
     <link rel="stylesheet" href="/src/layout.css">
+    <style>
+        body {
+            background: linear-gradient(135deg, #f5f7fa 0%, #e9ecef 100%);
+        }
+
+        .page-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 2rem;
+            border-radius: 15px;
+            margin-bottom: 2rem;
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3);
+        }
+
+        .page-header h3 {
+            margin: 0;
+            font-weight: 700;
+            font-size: 1.8rem;
+        }
+
+        .info-card {
+            background: white;
+            border-radius: 15px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+            border: none;
+        }
+
+        .info-card h5 {
+            color: #2d3748;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.75rem;
+            border-bottom: 3px solid #667eea;
+            display: inline-block;
+        }
+
+        .info-row {
+            display: flex;
+            align-items: center;
+            padding: 0.75rem 0;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .info-row:last-child {
+            border-bottom: none;
+        }
+
+        .info-label {
+            font-weight: 600;
+            color: #4a5568;
+            min-width: 150px;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .info-label i {
+            color: #667eea;
+            width: 20px;
+        }
+
+        .info-value {
+            color: #2d3748;
+            flex: 1;
+        }
+
+        .table-container {
+            overflow-x: auto;
+            border-radius: 10px;
+        }
+
+        .custom-table {
+            margin-bottom: 0;
+            border-collapse: separate;
+            border-spacing: 0;
+        }
+
+        .custom-table thead th {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 0.85rem;
+            letter-spacing: 0.5px;
+            padding: 1rem;
+            border: none;
+        }
+
+        .custom-table thead th:first-child {
+            border-top-left-radius: 10px;
+        }
+
+        .custom-table thead th:last-child {
+            border-top-right-radius: 10px;
+        }
+
+        .custom-table tbody td {
+            padding: 1rem;
+            vertical-align: middle;
+            border-bottom: 1px solid #e9ecef;
+        }
+
+        .total-section {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 1.5rem;
+            border-radius: 10px;
+            margin-top: 1.5rem;
+        }
+
+        .total-section h4 {
+            margin: 0;
+            font-weight: 700;
+            font-size: 1.5rem;
+        }
+
+        .status-badge {
+            padding: 0.5rem 1.5rem;
+            border-radius: 25px;
+            font-weight: 600;
+            font-size: 0.95rem;
+            display: inline-block;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .status-queued {
+            background: linear-gradient(135deg, #fbbf24, #f59e0b);
+            color: white;
+        }
+
+        .status-washing {
+            background: linear-gradient(135deg, #3b82f6, #2563eb);
+            color: white;
+        }
+
+        .status-ironing {
+            background: linear-gradient(135deg, #8b5cf6, #7c3aed);
+            color: white;
+        }
+
+        .status-ready {
+            background: linear-gradient(135deg, #10b981, #059669);
+            color: white;
+        }
+
+        .status-completed {
+            background: linear-gradient(135deg, #6366f1, #4f46e5);
+            color: white;
+        }
+
+        .payment-badge {
+            padding: 0.4rem 1rem;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            display: inline-block;
+        }
+
+        .payment-paid {
+            background: linear-gradient(135deg, #10b981, #059669);
+            color: white;
+        }
+
+        .payment-unpaid {
+            background: linear-gradient(135deg, #ef4444, #dc2626);
+            color: white;
+        }
+
+        .action-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        .btn-custom {
+            border-radius: 10px;
+            padding: 0.75rem 1.5rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            border: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        .btn-custom:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .btn-edit {
+            background: linear-gradient(135deg, #fbbf24, #f59e0b);
+            color: white;
+        }
+
+        .btn-update {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+        }
+
+        .btn-delete {
+            background: linear-gradient(135deg, #ef4444, #dc2626);
+            color: white;
+        }
+
+        .btn-back {
+            background: white;
+            color: #667eea;
+            font-weight: 600;
+            padding: 10px 25px;
+            border-radius: 10px;
+            border: none;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-back:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+            color: #764ba2;
+        }
+
+        @media (max-width: 768px) {
+            .page-header {
+                padding: 1.5rem;
+            }
+
+            .info-label {
+                min-width: 120px;
+                font-size: 0.9rem;
+            }
+
+            .action-buttons {
+                width: 100%;
+            }
+        }
+    </style>
 </head>
-<body class="bg-light">
+<body>
 
     <!-- Sidebar + Navbar injected automatically -->
     <div id="layout"></div>
 
-    <!-- Page Content -->
-    <div class="page-content container py-4">
+    <!-- Page Content (will be moved into #layoutMain by layout.js) -->
+    <div id="pageContent" style="display: none;">
 
-        <div class="d-flex justify-content-between align-items-center mb-3">
-            <h3>Detail Transaksi</h3>
-            <a href="./transactions.html" class="btn btn-secondary">Kembali</a>
+        <!-- Page Header -->
+        <div class="page-header d-flex justify-content-between align-items-center">
+            <div>
+                <h3><i class="fas fa-file-invoice me-2"></i>Detail Transaksi</h3>
+                <p class="mb-0 opacity-75">Informasi lengkap transaksi laundry</p>
+            </div>
+            <a href="./transactions.html" class="btn-back">
+                <i class="fas fa-arrow-left"></i> Kembali
+            </a>
         </div>
 
-        <!-- Transaction Info -->
-        <div class="card shadow-sm mb-4">
-            <div class="card-body">
+        <!-- Customer Information Card -->
+        <div class="info-card">
+            <h5><i class="fas fa-user-circle me-2"></i>Informasi Customer</h5>
 
-                <h5 class="mb-3">Informasi Customer</h5>
-
-                <div class="row">
-                    <div class="col-md-4">
-                        <p><strong>Nama:</strong> <span id="customerName">-</span></p>
-                    </div>
-                    <div class="col-md-4">
-                        <p><strong>Telepon:</strong> <span id="customerPhone">-</span></p>
-                    </div>
-                    <div class="col-md-4">
-                        <p><strong>Tanggal Pickup:</strong> <span id="pickupDate">-</span></p>
-                    </div>
+            <div class="info-row">
+                <div class="info-label">
+                    <i class="fas fa-user"></i>
+                    <span>Nama</span>
                 </div>
+                <div class="info-value" id="customerName">-</div>
+            </div>
 
-                <p><strong>Alamat:</strong><br><span id="customerAddress">-</span></p>
-                <p><strong>Catatan:</strong><br><span id="notes">-</span></p>
+            <div class="info-row">
+                <div class="info-label">
+                    <i class="fas fa-phone"></i>
+                    <span>Telepon</span>
+                </div>
+                <div class="info-value" id="customerPhone">-</div>
+            </div>
 
+            <div class="info-row">
+                <div class="info-label">
+                    <i class="fas fa-calendar-alt"></i>
+                    <span>Tanggal Pickup</span>
+                </div>
+                <div class="info-value" id="pickupDate">-</div>
+            </div>
+
+            <div class="info-row">
+                <div class="info-label">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <span>Alamat</span>
+                </div>
+                <div class="info-value" id="customerAddress">-</div>
+            </div>
+
+            <div class="info-row">
+                <div class="info-label">
+                    <i class="fas fa-sticky-note"></i>
+                    <span>Catatan</span>
+                </div>
+                <div class="info-value" id="notes">-</div>
             </div>
         </div>
 
-        <!-- Items -->
-        <div class="card shadow-sm mb-4">
-            <div class="card-body">
-                <h5 class="mb-3">Detail Cucian</h5>
+        <!-- Items Card -->
+        <div class="info-card">
+            <h5><i class="fas fa-list-ul me-2"></i>Detail Cucian</h5>
 
-                <table class="table table-bordered table-striped">
-                    <thead class="table-secondary">
+            <div class="table-container">
+                <table class="table custom-table">
+                    <thead>
                         <tr>
-                            <th>Jenis Layanan</th>
-                            <th>Item</th>
-                            <th>Qty</th>
-                            <th>Harga</th>
-                            <th>Subtotal</th>
+                            <th><i class="fas fa-cog me-2"></i>Jenis Layanan</th>
+                            <th><i class="fas fa-tshirt me-2"></i>Item</th>
+                            <th><i class="fas fa-sort-numeric-up me-2"></i>Qty</th>
+                            <th><i class="fas fa-tag me-2"></i>Harga</th>
+                            <th><i class="fas fa-calculator me-2"></i>Subtotal</th>
                         </tr>
                     </thead>
 
                     <tbody id="itemTable">
-                        <tr><td colspan="5" class="text-center">Loading...</td></tr>
+                        <tr><td colspan="5" class="text-center py-4">
+                            <i class="fas fa-spinner fa-spin me-2"></i>Loading...
+                        </td></tr>
                     </tbody>
                 </table>
+            </div>
 
-                <h4 class="text-end mt-3">
-                    Total: Rp <span id="totalPrice">0</span>
-                </h4>
-
+            <div class="total-section">
+                <div class="d-flex justify-content-between align-items-center">
+                    <span><i class="fas fa-receipt me-2"></i>Total Pembayaran</span>
+                    <h4>Rp <span id="totalPrice">0</span></h4>
+                </div>
             </div>
         </div>
 
-        <!-- Status -->
-        <div class="card shadow-sm mb-4">
-            <div class="card-body d-flex justify-content-between align-items-center">
+        <!-- Status & Actions Card -->
+        <div class="info-card">
+            <div class="row">
+                <div class="col-md-6 mb-3 mb-md-0">
+                    <h5><i class="fas fa-info-circle me-2"></i>Status Transaksi</h5>
+                    
+                    <div class="info-row">
+                        <div class="info-label">
+                            <i class="fas fa-tasks"></i>
+                            <span>Status</span>
+                        </div>
+                        <div class="info-value">
+                            <span id="statusText" class="status-badge"></span>
+                        </div>
+                    </div>
 
-                <div>
-                    <h5>Status Transaksi</h5>
-                    <p class="fst-italic">
-                        <strong>Status:</strong> <span id="statusText" class="badge bg-primary"></span>
-                    </p>
-                    <p><strong>Pembayaran:</strong> <span id="paymentStatus"></span></p>
+                    <div class="info-row">
+                        <div class="info-label">
+                            <i class="fas fa-money-bill-wave"></i>
+                            <span>Pembayaran</span>
+                        </div>
+                        <div class="info-value">
+                            <span id="paymentStatus" class="payment-badge"></span>
+                        </div>
+                    </div>
                 </div>
 
-                <div class="text-end">
+                <div class="col-md-6">
+                    <h5 class="mb-3"><i class="fas fa-tools me-2"></i>Aksi</h5>
+                    <div class="action-buttons">
+                        <a class="btn-custom btn-edit" id="editBtn">
+                            <i class="fas fa-edit"></i> Edit Transaksi
+                        </a>
 
-                    <a class="btn btn-warning mb-2 w-100" id="editBtn">
-                        Edit Transaksi
-                    </a>
-
-                    <button class="btn btn-primary mb-2 w-100" id="advanceStatusBtn">
-                        Update Status → Berikutnya
-                    </button>
-
-                    <button class="btn btn-danger w-100" id="deleteBtn">
-                        Hapus Transaksi
-                    </button>
-
+                        <button class="btn-custom btn-delete" id="deleteBtn">
+                            <i class="fas fa-trash-alt"></i> Hapus Transaksi
+                        </button>
+                    </div>
                 </div>
-
             </div>
         </div>
 
+        <!-- Update Status Card -->
+        <div class="info-card">
+            <h5><i class="fas fa-sync-alt me-2"></i>Update Status Transaksi</h5>
+            
+            <div class="mb-3">
+                <label class="form-label fw-bold">
+                    <i class="fas fa-list-ul me-2"></i>Status Baru
+                </label>
+                <select id="newStatusSelect" class="form-select">
+                    <option value="">-- Pilih Status Baru --</option>
+                    <option value="Queued">🕐 Queued (Antrian)</option>
+                    <option value="Washing">🧺 Washing (Sedang Dicuci)</option>
+                    <option value="Ironing">👔 Ironing (Sedang Disetrika)</option>
+                    <option value="Ready to pick up">✅ Ready to pick up (Siap Diambil)</option>
+                    <option value="Completed">🎉 Completed (Selesai)</option>
+                </select>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label fw-bold">
+                    <i class="fas fa-comment-dots me-2"></i>Alasan Perubahan
+                </label>
+                <textarea id="statusReason" class="form-control" rows="3" placeholder="Masukkan alasan perubahan status..."></textarea>
+            </div>
+
+            <button class="btn-custom btn-update w-100" id="updateStatusBtn">
+                <i class="fas fa-check-circle"></i> Simpan Perubahan Status
+            </button>
+        </div>
     </div>
 
     <script type="module" src="/js/layout.js"></script>

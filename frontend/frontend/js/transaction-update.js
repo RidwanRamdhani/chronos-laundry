@@ -124,7 +124,9 @@ function addItemRow(type = "", itemName = "", qty = 1, price = 0) {
         </td>
 
         <td>
-            <button class="btn btn-danger btn-sm remove-btn">X</button>
+            <button type="button" class="btn-remove-item remove-btn">
+                <i class="fas fa-times"></i>
+            </button>
         </td>
     `;
 

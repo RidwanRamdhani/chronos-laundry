@@ -43,9 +43,9 @@ function addItemRow() {
     row.innerHTML = `
         <td>
             <select class="form-select service-type" required>
-                <option value="">Pilih</option>
+                <option value="">Pilih Layanan</option>
                 ${serviceTypes
-                    .map((t) => `<option value="${t}">${t}</option>`)
+                    .map((t) => `<option value="${t}">${t.charAt(0).toUpperCase() + t.slice(1)}</option>`)
                     .join("")}
             </select>
         </td>
@@ -61,15 +61,17 @@ function addItemRow() {
         </td>
 
         <td>
-            <input type="text" class="form-control price" value="0" readonly />
+            <input type="text" class="form-control price" value="Rp 0" readonly />
         </td>
 
         <td>
-            <input type="text" class="form-control subtotal" value="0" readonly />
+            <input type="text" class="form-control subtotal" value="Rp 0" readonly />
         </td>
 
-        <td>
-            <button class="btn btn-danger btn-sm remove-btn">X</button>
+        <td class="text-center">
+            <button type="button" class="btn-remove-item remove-btn">
+                <i class="fas fa-times"></i>
+            </button>
         </td>
     `;
 
@@ -106,15 +108,18 @@ function addItemRow() {
     // Update price & subtotal when item changes
     itemSelect.addEventListener("change", () => {
         const price = parseInt(itemSelect.selectedOptions[0].dataset.price || 0);
-        priceInput.value = price;
-        subtotalInput.value = price * parseInt(qtyInput.value);
+        priceInput.value = `Rp ${price.toLocaleString('id-ID')}`;
+        const qty = parseInt(qtyInput.value);
+        subtotalInput.value = `Rp ${(price * qty).toLocaleString('id-ID')}`;
         refreshTotal();
     });
 
     // Recalculate subtotal when quantity changes
     qtyInput.addEventListener("input", () => {
-        const price = parseInt(priceInput.value);
-        subtotalInput.value = price * parseInt(qtyInput.value);
+        const priceText = priceInput.value.replace(/[^0-9]/g, '');
+        const price = parseInt(priceText || 0);
+        const qty = parseInt(qtyInput.value);
+        subtotalInput.value = `Rp ${(price * qty).toLocaleString('id-ID')}`;
         refreshTotal();
     });
 
@@ -137,16 +142,17 @@ function refreshTotal() {
     let total = 0;
 
     document.querySelectorAll(".subtotal").forEach((el) => {
-        total += parseInt(el.value || 0);
+        const value = el.value.replace(/[^0-9]/g, '');
+        total += parseInt(value || 0);
     });
 
-    totalPriceEl.textContent = total.toLocaleString();
+    totalPriceEl.textContent = total.toLocaleString('id-ID');
 }
 
 // ==============================
 // Submit
 // ==============================
-document.getElementById("transactionForm").addEventListener("submit", async (e) => {
+document.getElementById("createForm").addEventListener("submit", async (e) => {
     e.preventDefault();
 
     const items = [];
@@ -155,15 +161,25 @@ document.getElementById("transactionForm").addEventListener("submit", async (e) 
         const serviceType = row.querySelector(".service-type").value;
         const itemName = row.querySelector(".item-name").value;
         const qty = parseInt(row.querySelector(".quantity").value);
-        const price = parseInt(row.querySelector(".price").value);
+        const priceText = row.querySelector(".price").value.replace(/[^0-9]/g, '');
+        const price = parseInt(priceText);
 
-        items.push({
-            service_type: serviceType,
-            item_name: itemName,
-            quantity: qty,
-            unit_price: price,
-        });
+        if (serviceType && itemName && qty > 0 && price > 0) {
+            items.push({
+                service_type: serviceType,
+                item_name: itemName,
+                quantity: qty,
+                unit_price: price,
+            });
+        }
     });
+
+    if (items.length === 0) {
+        alert("Harap tambahkan minimal 1 item cucian!");
+        return;
+    }
+
+    const paymentStatus = document.querySelector('input[name="paymentStatus"]:checked').value === 'true';
 
     const payload = {
         customer_name: document.getElementById("customerName").value.trim(),
@@ -171,6 +187,7 @@ document.getElementById("transactionForm").addEventListener("submit", async (e) 
         customer_address: document.getElementById("customerAddress").value.trim(),
         notes: document.getElementById("notes").value.trim(),
         pickup_date: document.getElementById("pickupDate").value,
+        payment_status: paymentStatus,
         items: items,
     };
 
@@ -191,11 +208,11 @@ document.getElementById("transactionForm").addEventListener("submit", async (e) 
             return;
         }
 
-        alert("Transaksi berhasil dibuat!");
+        alert("✅ Transaksi berhasil dibuat!");
         window.location.href = "./transactions.html";
 
     } catch (err) {
         console.error(err);
-        alert("Server error");
+        alert("❌ Server error: " + err.message);
     }
 });

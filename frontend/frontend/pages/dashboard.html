@@ -5,89 +5,312 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Dashboard - Chronos Laundry</title>
 
-    <link 
-        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" 
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+        rel="stylesheet"
+    />
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap"
         rel="stylesheet"
     />
 
-    <!-- Layout styling (optional but recommended) -->
+    <!-- Layout styling -->
     <link rel="stylesheet" href="/src/layout.css">
+
+    <style>
+        * {
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+
+        .page-content {
+            background: transparent;
+        }
+
+        .dashboard-header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+            animation: fadeInDown 0.6s ease-out;
+        }
+
+        .dashboard-header h2 {
+            font-weight: 700;
+            color: #2d3748;
+            margin: 0;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .dashboard-header h2 i {
+            color: #667eea;
+            font-size: 2rem;
+        }
+
+        .dashboard-header p {
+            color: #718096;
+            margin: 10px 0 0 0;
+            font-size: 1rem;
+        }
+
+        .stat-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 25px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            border: none;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            animation: fadeInUp 0.6s ease-out;
+        }
+
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 5px;
+            background: linear-gradient(90deg, var(--card-color-1), var(--card-color-2));
+        }
+
+        .stat-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.15);
+        }
+
+        .stat-card.total {
+            --card-color-1: #667eea;
+            --card-color-2: #764ba2;
+        }
+
+        .stat-card.antrian {
+            --card-color-1: #f093fb;
+            --card-color-2: #f5576c;
+        }
+
+        .stat-card.mencuci {
+            --card-color-1: #4facfe;
+            --card-color-2: #00f2fe;
+        }
+
+        .stat-card.menyetrika {
+            --card-color-1: #43e97b;
+            --card-color-2: #38f9d7;
+        }
+
+        .stat-card.siap {
+            --card-color-1: #fa709a;
+            --card-color-2: #fee140;
+        }
+
+        .stat-card.selesai {
+            --card-color-1: #30cfd0;
+            --card-color-2: #330867;
+        }
+
+        .stat-icon {
+            width: 70px;
+            height: 70px;
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            margin-bottom: 20px;
+            background: linear-gradient(135deg, var(--card-color-1), var(--card-color-2));
+            color: white;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        .stat-title {
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: #718096;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 10px;
+        }
+
+        .stat-value {
+            font-size: 2.5rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--card-color-1), var(--card-color-2));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin: 0;
+            line-height: 1;
+        }
+
+        .stat-subtitle {
+            font-size: 0.85rem;
+            color: #a0aec0;
+            margin-top: 8px;
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .stat-card:nth-child(1) { animation-delay: 0.1s; }
+        .stat-card:nth-child(2) { animation-delay: 0.2s; }
+        .stat-card:nth-child(3) { animation-delay: 0.3s; }
+        .stat-card:nth-child(4) { animation-delay: 0.4s; }
+        .stat-card:nth-child(5) { animation-delay: 0.5s; }
+        .stat-card:nth-child(6) { animation-delay: 0.6s; }
+
+        @media (max-width: 768px) {
+            .dashboard-header {
+                padding: 20px;
+            }
+
+            .dashboard-header h2 {
+                font-size: 1.5rem;
+            }
+
+            .stat-card {
+                padding: 20px;
+            }
+
+            .stat-value {
+                font-size: 2rem;
+            }
+
+            .stat-icon {
+                width: 60px;
+                height: 60px;
+                font-size: 1.5rem;
+            }
+        }
+    </style>
 </head>
 
-<body class="bg-light">
+<body>
 
     <!-- Layout Sidebar + Navbar injected here -->
     <div id="layout"></div>
 
-    <!-- Page Content -->
-    <div class="page-content container py-4">
+    <!-- Page content (will be moved into #layoutMain by layout.js) -->
+    <div id="pageContent" style="display: none;">
+        <!-- Dashboard Header -->
+        <div class="dashboard-header">
+            <h2>
+                <i class="fas fa-chart-line"></i>
+                Dashboard Overview
+            </h2>
+            <p>Monitor laundry operations in real-time</p>
+        </div>
 
-        <h3 class="mb-4">Dashboard</h3>
-
+        <!-- Statistics Grid -->
         <div class="row" id="statsContainer">
 
             <!-- Total Transaksi -->
-            <div class="col-md-4 mb-3">
-                <div class="card shadow-sm">
-                    <div class="card-body text-center">
-                        <h5>Total Transaksi</h5>
-                        <h2 id="total" class="fw-bold text-primary">0</h2>
+            <div class="col-lg-4 col-md-6">
+                <div class="stat-card total">
+                    <div class="stat-icon">
+                        <i class="fas fa-receipt"></i>
                     </div>
+                    <div class="stat-title">Total Transaksi</div>
+                    <h2 class="stat-value" id="total">0</h2>
+                    <div class="stat-subtitle">Semua transaksi</div>
                 </div>
             </div>
 
             <!-- Antrian -->
-            <div class="col-md-4 mb-3">
-                <div class="card shadow-sm">
-                    <div class="card-body text-center">
-                        <h5>Antrian</h5>
-                        <h2 id="antrian" class="fw-bold">0</h2>
+            <div class="col-lg-4 col-md-6">
+                <div class="stat-card antrian">
+                    <div class="stat-icon">
+                        <i class="fas fa-clock"></i>
                     </div>
+                    <div class="stat-title">Antrian</div>
+                    <h2 class="stat-value" id="antrian">0</h2>
+                    <div class="stat-subtitle">Menunggu proses</div>
                 </div>
             </div>
 
             <!-- Mencuci -->
-            <div class="col-md-4 mb-3">
-                <div class="card shadow-sm">
-                    <div class="card-body text-center">
-                        <h5>Mencuci</h5>
-                        <h2 id="mencuci" class="fw-bold">0</h2>
+            <div class="col-lg-4 col-md-6">
+                <div class="stat-card mencuci">
+                    <div class="stat-icon">
+                        <i class="fas fa-tint"></i>
                     </div>
+                    <div class="stat-title">Mencuci</div>
+                    <h2 class="stat-value" id="mencuci">0</h2>
+                    <div class="stat-subtitle">Sedang dicuci</div>
                 </div>
             </div>
 
             <!-- Menyetrika -->
-            <div class="col-md-4 mb-3">
-                <div class="card shadow-sm">
-                    <div class="card-body text-center">
-                        <h5>Menyetrika</h5>
-                        <h2 id="menyetrika" class="fw-bold">0</h2>
+            <div class="col-lg-4 col-md-6">
+                <div class="stat-card menyetrika">
+                    <div class="stat-icon">
+                        <i class="fas fa-fire"></i>
                     </div>
+                    <div class="stat-title">Menyetrika</div>
+                    <h2 class="stat-value" id="menyetrika">0</h2>
+                    <div class="stat-subtitle">Sedang disetrika</div>
                 </div>
             </div>
 
             <!-- Siap Diambil -->
-            <div class="col-md-4 mb-3">
-                <div class="card shadow-sm">
-                    <div class="card-body text-center">
-                        <h5>Siap Diambil</h5>
-                        <h2 id="siap" class="fw-bold">0</h2>
+            <div class="col-lg-4 col-md-6">
+                <div class="stat-card siap">
+                    <div class="stat-icon">
+                        <i class="fas fa-box-open"></i>
                     </div>
+                    <div class="stat-title">Siap Diambil</div>
+                    <h2 class="stat-value" id="siap">0</h2>
+                    <div class="stat-subtitle">Menunggu pickup</div>
                 </div>
             </div>
 
             <!-- Selesai -->
-            <div class="col-md-4 mb-3">
-                <div class="card shadow-sm">
-                    <div class="card-body text-center">
-                        <h5>Selesai</h5>
-                        <h2 id="selesai" class="fw-bold text-success">0</h2>
+            <div class="col-lg-4 col-md-6">
+                <div class="stat-card selesai">
+                    <div class="stat-icon">
+                        <i class="fas fa-check-circle"></i>
                     </div>
+                    <div class="stat-title">Selesai</div>
+                    <h2 class="stat-value" id="selesai">0</h2>
+                    <div class="stat-subtitle">Transaksi selesai</div>
                 </div>
             </div>
 
         </div>
-
     </div>
 
     <!-- Scripts -->

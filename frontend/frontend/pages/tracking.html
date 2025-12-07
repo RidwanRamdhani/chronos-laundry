@@ -1,110 +1,640 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="id">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tracking Laundry - Chronos Laundry</title>
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 
     <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
         body {
-            background: #f8f9fa;
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             min-height: 100vh;
+            padding: 20px 0;
         }
 
-        .step {
-            padding: 10px 15px;
-            border-radius: 8px;
-            font-weight: bold;
-            border: 2px solid #dee2e6;
+        .tracking-container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        /* Header Section */
+        .tracking-header {
+            text-align: center;
+            color: white;
+            margin-bottom: 40px;
+            animation: fadeInDown 0.8s ease-out;
+        }
+
+        .tracking-header h1 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+        }
+
+        .tracking-header p {
+            font-size: 1.1rem;
+            opacity: 0.95;
+        }
+
+        /* Search Card */
+        .search-card {
             background: white;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            margin-bottom: 30px;
+            animation: fadeInUp 0.8s ease-out;
         }
 
-        .step.active {
-            border-color: #0d6efd;
-            background: #e7f0ff;
-            color: #0d6efd;
+        .search-card h3 {
+            font-weight: 700;
+            color: #667eea;
+            margin-bottom: 25px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .search-input-group {
+            position: relative;
+        }
+
+        .search-input-group input {
+            padding: 18px 20px;
+            border: 2px solid #e0e0e0;
+            border-radius: 15px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            width: 100%;
+        }
+
+        .search-input-group input:focus {
+            border-color: #667eea;
+            box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.1);
+            outline: none;
+        }
+
+        .btn-track {
+            padding: 18px 40px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border: none;
+            border-radius: 15px;
+            color: white;
+            font-weight: 600;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 20px rgba(102, 126, 234, 0.4);
+            margin-top: 15px;
+            width: 100%;
+        }
+
+        .btn-track:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 30px rgba(102, 126, 234, 0.6);
+        }
+
+        .btn-track:active {
+            transform: translateY(0);
+        }
+
+        .error-message {
+            background: #fee;
+            color: #c33;
+            padding: 15px 20px;
+            border-radius: 10px;
+            margin-top: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            animation: shake 0.5s ease;
+        }
+
+        /* Result Card */
+        .result-card {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            animation: fadeInUp 0.8s ease-out;
+        }
+
+        .result-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid #f0f0f0;
+        }
+
+        .result-header h3 {
+            font-weight: 700;
+            color: #667eea;
+            margin: 0;
+        }
+
+        .status-badge {
+            padding: 10px 20px;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .status-badge.Queued {
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        .status-badge.Washing {
+            background: #cfe2ff;
+            color: #084298;
+        }
+
+        .status-badge.Ironing {
+            background: #e7d4ff;
+            color: #6f42c1;
+        }
+
+        .status-badge.Ready.to.Pick.Up,
+        .status-badge[class*="Ready"] {
+            background: #d1e7dd;
+            color: #0f5132;
+        }
+
+        .status-badge.Complete {
+            background: #d1e7dd;
+            color: #0a3622;
+        }
+
+        /* Progress Steps */
+        .progress-steps {
+            display: flex;
+            justify-content: space-between;
+            margin: 40px 0;
+            position: relative;
+        }
+
+        .progress-steps::before {
+            content: '';
+            position: absolute;
+            top: 30px;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: #e0e0e0;
+            z-index: 0;
+        }
+
+        .progress-line {
+            position: absolute;
+            top: 30px;
+            left: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+            z-index: 1;
+            transition: width 0.8s ease;
+            width: 0%;
+        }
+
+        .step-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+            z-index: 2;
+            flex: 1;
+        }
+
+        .step-circle {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: white;
+            border: 4px solid #e0e0e0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            color: #999;
+            transition: all 0.4s ease;
+            margin-bottom: 15px;
+        }
+
+        .step-item.active .step-circle {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-color: #667eea;
+            color: white;
+            box-shadow: 0 8px 20px rgba(102, 126, 234, 0.4);
+            transform: scale(1.1);
+        }
+
+        .step-item.completed .step-circle {
+            background: #28a745;
+            border-color: #28a745;
+            color: white;
+        }
+
+        .step-label {
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: #999;
+            text-align: center;
+            transition: color 0.3s ease;
+        }
+
+        .step-item.active .step-label,
+        .step-item.completed .step-label {
+            color: #333;
+        }
+
+        /* Info Grid */
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+
+        .info-item {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 15px;
+            border-left: 4px solid #667eea;
+            transition: all 0.3s ease;
+        }
+
+        .info-item:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+        }
+
+        .info-label {
+            font-size: 0.85rem;
+            color: #666;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .info-value {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #333;
         }
 
         /* Timeline */
+        .timeline-section {
+            margin-top: 40px;
+            padding-top: 30px;
+            border-top: 2px solid #f0f0f0;
+        }
+
+        .timeline-section h4 {
+            font-weight: 700;
+            color: #333;
+            margin-bottom: 25px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
         .timeline-item {
             position: relative;
-            padding-left: 30px;
-            margin-bottom: 25px;
+            padding-left: 40px;
+            margin-bottom: 30px;
+            animation: fadeInLeft 0.5s ease-out;
         }
 
         .timeline-item::before {
             content: "";
-            width: 12px;
-            height: 12px;
-            background: #0d6efd;
+            width: 16px;
+            height: 16px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             border-radius: 50%;
             position: absolute;
             left: 0;
             top: 4px;
+            box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.2);
         }
 
         .timeline-line {
             position: absolute;
-            left: 5px;
-            top: 18px;
+            left: 7px;
+            top: 24px;
             width: 2px;
-            height: calc(100% - 15px);
-            background: #0d6efd;
-            opacity: 0.4;
+            height: calc(100% - 10px);
+            background: linear-gradient(180deg, #667eea 0%, #764ba2 100%);
+            opacity: 0.3;
+        }
+
+        .timeline-content {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 12px;
+            transition: all 0.3s ease;
+        }
+
+        .timeline-content:hover {
+            background: #e9ecef;
+            transform: translateX(5px);
+        }
+
+        .timeline-status {
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 8px;
+            font-size: 1rem;
+        }
+
+        .timeline-meta {
+            font-size: 0.85rem;
+            color: #666;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 8px;
+        }
+
+        .timeline-reason {
+            font-size: 0.9rem;
+            color: #555;
+            font-style: italic;
+        }
+
+        /* Animations */
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInLeft {
+            from {
+                opacity: 0;
+                transform: translateX(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-10px); }
+            75% { transform: translateX(10px); }
+        }
+
+        /* Loading Spinner */
+        .loading-spinner {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255,255,255,0.3);
+            border-radius: 50%;
+            border-top-color: white;
+            animation: spin 0.8s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .tracking-header h1 {
+                font-size: 2rem;
+            }
+
+            .search-card,
+            .result-card {
+                padding: 25px;
+            }
+
+            .progress-steps {
+                flex-wrap: wrap;
+                gap: 20px;
+            }
+
+            .step-circle {
+                width: 50px;
+                height: 50px;
+                font-size: 1.2rem;
+            }
+
+            .info-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .result-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+        }
+
+        /* Back Button */
+        .back-button {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            background: white;
+            color: #667eea;
+            padding: 12px 20px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            z-index: 1000;
+        }
+
+        .back-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 30px rgba(0,0,0,0.3);
+            color: #764ba2;
         }
     </style>
 </head>
 
 <body>
 
-<div class="container py-5">
+    <a href="../index.html" class="back-button">
+        <i class="fas fa-arrow-left"></i>
+        Kembali
+    </a>
 
-    <h2 class="mb-4 fw-bold text-primary">Tracking Status Laundry</h2>
-
-    <!-- Input Form -->
-    <div class="card shadow-sm p-4 mb-4">
-        <label class="form-label">Masukkan Kode Laundry</label>
-        <div class="input-group">
-            <input type="text" id="trackCode" class="form-control" placeholder="Contoh: TRX-20251203-001">
-            <button class="btn btn-primary" id="btnTrack">Track</button>
-        </div>
-        <div id="trackError" class="text-danger mt-2 d-none"></div>
-    </div>
-
-    <!-- Result Card -->
-    <div id="trackingResult" class="card shadow-sm p-4 d-none">
-
-        <h4 class="fw-bold mb-3">Hasil Tracking</h4>
-
-        <!-- Steps -->
-        <div class="d-flex gap-2 mb-4 flex-wrap">
-            <div class="step" id="step-antrian">Antrian</div>
-            <div class="step" id="step-mencuci">Mencuci</div>
-            <div class="step" id="step-menyetrika">Menyetrika</div>
-            <div class="step" id="step-siap_diambil">Siap Diambil</div>
-            <div class="step" id="step-selesai">Selesai</div>
+    <div class="tracking-container">
+        
+        <!-- Header -->
+        <div class="tracking-header">
+            <h1><i class="fas fa-map-marker-alt"></i> Tracking Laundry</h1>
+            <p>Pantau status cucian Anda secara real-time</p>
         </div>
 
-        <!-- Info -->
-        <p><strong>Kode Transaksi:</strong> <span id="invoiceDisplay"></span></p>
-        <p><strong>Nama Pelanggan:</strong> <span id="customerName"></span></p>
-        <p><strong>Status Saat Ini:</strong> <span id="currentStatus" class="fw-bold"></span></p>
-        <p><strong>Jumlah Item:</strong> <span id="itemsCount"></span></p>
-        <p><strong>Total Harga:</strong> <span id="totalPrice"></span></p>
-        <p><strong>Sudah Dibayar:</strong> <span id="isPaid"></span></p>
-        <p><strong>Estimasi Selesai:</strong> <span id="eta"></span></p>
+        <!-- Search Card -->
+        <div class="search-card">
+            <h3>
+                <i class="fas fa-search"></i>
+                Masukkan Kode Transaksi
+            </h3>
+            <div class="search-input-group">
+                <input 
+                    type="text" 
+                    id="trackCode" 
+                    placeholder="Contoh: TRX-20251203-001"
+                    onkeypress="if(event.key === 'Enter') document.getElementById('btnTrack').click()"
+                >
+            </div>
+            <button class="btn-track" id="btnTrack">
+                <i class="fas fa-location-arrow"></i>
+                Lacak Sekarang
+            </button>
+            <div id="trackError" class="d-none"></div>
+        </div>
 
-        <hr class="my-4">
+        <!-- Result Card -->
+        <div id="trackingResult" class="result-card d-none">
+            
+            <!-- Header -->
+            <div class="result-header">
+                <h3>
+                    <i class="fas fa-receipt"></i>
+                    Detail Transaksi
+                </h3>
+                <div id="statusBadge"></div>
+            </div>
 
-        <h5 class="fw-bold">Riwayat Status</h5>
-        <div id="statusHistory" class="mt-3"></div>
+            <!-- Progress Steps -->
+            <div class="progress-steps">
+                <div class="progress-line" id="progressLine"></div>
+                <div class="step-item" data-step="Queued">
+                    <div class="step-circle">
+                        <i class="fas fa-clock"></i>
+                    </div>
+                    <div class="step-label">Queued</div>
+                </div>
+                <div class="step-item" data-step="Washing">
+                    <div class="step-circle">
+                        <i class="fas fa-water"></i>
+                    </div>
+                    <div class="step-label">Washing</div>
+                </div>
+                <div class="step-item" data-step="Ironing">
+                    <div class="step-circle">
+                        <i class="fas fa-fire"></i>
+                    </div>
+                    <div class="step-label">Ironing</div>
+                </div>
+                <div class="step-item" data-step="Ready to Pick Up">
+                    <div class="step-circle">
+                        <i class="fas fa-box"></i>
+                    </div>
+                    <div class="step-label">Ready to Pick Up</div>
+                </div>
+                <div class="step-item" data-step="Complete">
+                    <div class="step-circle">
+                        <i class="fas fa-check"></i>
+                    </div>
+                    <div class="step-label">Completed</div>
+                </div>
+            </div>
+
+            <!-- Info Grid -->
+            <div class="info-grid">
+                <div class="info-item">
+                    <div class="info-label">
+                        <i class="fas fa-barcode"></i>
+                        Kode Transaksi
+                    </div>
+                    <div class="info-value" id="invoiceDisplay"></div>
+                </div>
+                <div class="info-item">
+                    <div class="info-label">
+                        <i class="fas fa-user"></i>
+                        Nama Pelanggan
+                    </div>
+                    <div class="info-value" id="customerName"></div>
+                </div>
+                <div class="info-item">
+                    <div class="info-label">
+                        <i class="fas fa-shopping-bag"></i>
+                        Jumlah Item
+                    </div>
+                    <div class="info-value" id="itemsCount"></div>
+                </div>
+                <div class="info-item">
+                    <div class="info-label">
+                        <i class="fas fa-money-bill-wave"></i>
+                        Total Harga
+                    </div>
+                    <div class="info-value" id="totalPrice"></div>
+                </div>
+                <div class="info-item">
+                    <div class="info-label">
+                        <i class="fas fa-credit-card"></i>
+                        Status Pembayaran
+                    </div>
+                    <div class="info-value" id="isPaid"></div>
+                </div>
+                <div class="info-item">
+                    <div class="info-label">
+                        <i class="fas fa-calendar-check"></i>
+                        Estimasi Selesai
+                    </div>
+                    <div class="info-value" id="eta"></div>
+                </div>
+            </div>
+
+            <!-- Timeline -->
+            <div class="timeline-section">
+                <h4>
+                    <i class="fas fa-history"></i>
+                    Riwayat Status
+                </h4>
+                <div id="statusHistory"></div>
+            </div>
+
+        </div>
 
     </div>
 
-</div>
-
-<script type="module" src="/js/tracking.js"></script>
+    <script type="module" src="/js/tracking.js"></script>
 </body>
 </html>

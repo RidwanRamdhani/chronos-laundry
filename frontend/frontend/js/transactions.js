@@ -60,7 +60,15 @@ async function loadTransactions() {
 function renderTable(rows) {
     if (rows.length === 0) {
         tableBody.innerHTML = `
-            <tr><td colspan="6" class="text-center">Tidak ada data.</td></tr>
+            <tr>
+                <td colspan="6">
+                    <div class="empty-state">
+                        <i class="fas fa-inbox"></i>
+                        <h5>Tidak Ada Transaksi</h5>
+                        <p>Belum ada transaksi yang tersedia</p>
+                    </div>
+                </td>
+            </tr>
         `;
         return;
     }
@@ -69,15 +77,34 @@ function renderTable(rows) {
         .map(
             (trx) => `
         <tr>
-            <td>${trx.transaction_code}</td>
-            <td>${trx.customer_name}</td>
-            <td class="text-capitalize">${trx.status}</td>
-            <td>Rp ${trx.total_price.toLocaleString()}</td>
-            <td>${new Date(trx.created_at).toLocaleString()}</td>
+            <td><strong>${trx.transaction_code}</strong></td>
             <td>
-                <a href="./transaction-detail.html?id=${trx.id}" class="btn btn-sm btn-primary">Detail</a>
-                <a href="./transaction-update.html?id=${trx.id}" class="btn btn-sm btn-warning">Edit</a>
-                <button class="btn btn-sm btn-danger" onclick="deleteTransaction(${trx.id})">Hapus</button>
+                <div><strong>${trx.customer_name}</strong></div>
+                <small class="text-muted">${trx.customer_phone || '-'}</small>
+            </td>
+            <td>
+                <span class="status-badge status-${trx.status}">
+                    ${trx.status.replace(/_/g, ' ')}
+                </span>
+            </td>
+            <td><strong>Rp ${trx.total_price.toLocaleString('id-ID')}</strong></td>
+            <td>${new Date(trx.created_at).toLocaleDateString('id-ID', {
+                day: '2-digit',
+                month: 'short',
+                year: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit'
+            })}</td>
+            <td>
+                <a href="./transaction-detail.html?id=${trx.id}" class="btn btn-action btn-detail">
+                    <i class="fas fa-eye"></i> Detail
+                </a>
+                <a href="./transaction-update.html?id=${trx.id}" class="btn btn-action btn-edit">
+                    <i class="fas fa-edit"></i> Edit
+                </a>
+                <button class="btn btn-action btn-delete" onclick="deleteTransaction(${trx.id})">
+                    <i class="fas fa-trash"></i> Hapus
+                </button>
             </td>
         </tr>
         `

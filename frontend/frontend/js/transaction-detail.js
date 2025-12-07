@@ -25,7 +25,9 @@ const itemTable = document.getElementById("itemTable");
 
 const editBtn = document.getElementById("editBtn");
 const deleteBtn = document.getElementById("deleteBtn");
-const advanceStatusBtn = document.getElementById("advanceStatusBtn");
+const updateStatusBtn = document.getElementById("updateStatusBtn");
+const newStatusSelect = document.getElementById("newStatusSelect");
+const statusReason = document.getElementById("statusReason");
 
 // ===============================
 // Load Transaction Detail
@@ -45,9 +47,16 @@ async function loadTransactionDetail() {
 
         const data = result.data;
 
+        // Set status with appropriate class
         statusText.textContent = data.status;
+        statusText.className = 'status-badge ' + getStatusClass(data.status);
+        
         totalPrice.textContent = data.total_price.toLocaleString();
+        
+        // Set payment status with appropriate class
         paymentStatus.textContent = data.is_paid ? "Sudah Dibayar" : "Belum Dibayar";
+        paymentStatus.className = 'payment-badge ' + (data.is_paid ? 'payment-paid' : 'payment-unpaid');
+        
         pickupDate.textContent = data.pickup_date;
 
         customerName.textContent = data.customer_name;
@@ -63,6 +72,18 @@ async function loadTransactionDetail() {
         console.error(err);
         alert("Server error");
     }
+}
+
+// Helper function to get status class
+function getStatusClass(status) {
+    const statusMap = {
+        'Queued': 'status-queued',
+        'Washing': 'status-washing',
+        'Ironing': 'status-ironing',
+        'Ready to pick up': 'status-ready',
+        'Completed': 'status-completed'
+    };
+    return statusMap[status] || 'status-queued';
 }
 
 function renderItems(items) {
@@ -109,19 +130,19 @@ deleteBtn.addEventListener("click", async () => {
 // ===============================
 // Update Status
 // ===============================
-advanceStatusBtn.addEventListener("click", async () => {
-    const statuses = ["Queued", "Washing", "Ironing", "Ready to pick up", "Completed"];
+updateStatusBtn.addEventListener("click", async () => {
+    const newStatus = newStatusSelect.value;
+    const reason = statusReason.value.trim();
 
-    const newStatus = prompt("Masukkan status baru:\n" + statuses.join(", "));
-
-    if (!newStatus) return;
-    if (!statuses.includes(newStatus)) {
-        alert("Status tidak valid");
+    if (!newStatus) {
+        alert("Pilih status baru terlebih dahulu");
         return;
     }
 
-    const reason = prompt("Alasan perubahan status:");
-    if (!reason) return;
+    if (!reason) {
+        alert("Masukkan alasan perubahan status");
+        return;
+    }
 
     try {
         const response = await fetch(`${API_BASE}/transactions/${trxId}/status`, {
@@ -141,6 +162,12 @@ advanceStatusBtn.addEventListener("click", async () => {
         }
 
         alert("Status berhasil diperbarui");
+        
+        // Reset form
+        newStatusSelect.value = "";
+        statusReason.value = "";
+        
+        // Reload data
         loadTransactionDetail();
 
     } catch (err) {

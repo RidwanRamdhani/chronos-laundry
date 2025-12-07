@@ -19,6 +19,8 @@ async function loadLayout() {
     const layoutMain = document.getElementById("layoutMain");
 
     if (pageContent && layoutMain) {
+        // Show the content and move it to layoutMain
+        pageContent.style.display = 'block';
         layoutMain.appendChild(pageContent);
     }
 }
