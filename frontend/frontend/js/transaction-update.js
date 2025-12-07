@@ -5,7 +5,7 @@ requireAuth();
 // Get transaction ID
 const params = new URLSearchParams(window.location.search);
 const trxId = params.get("id");
-document.getElementById("backBtn").href = `./transaction-detail.html?id=${trxId}`;
+document.getElementById("backBtn").href = `./transactions.html`;
 
 const itemTable = document.getElementById("itemTable");
 const totalPriceEl = document.getElementById("totalPrice");

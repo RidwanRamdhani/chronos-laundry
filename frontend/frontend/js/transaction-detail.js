@@ -10,16 +10,16 @@ if (!trxId) {
     window.location.href = "./transactions.html";
 }
 
-// Elements - Updated to match HTML IDs
-const statusText = document.getElementById("statusText");
-const totalPrice = document.getElementById("totalPrice");
-const paymentStatus = document.getElementById("paymentStatus");
-const pickupDate = document.getElementById("pickupDate");
+// Elements - Fixed variable naming to avoid conflicts
+const statusTextElement = document.getElementById("statusText");
+const totalPriceElement = document.getElementById("totalPrice");
+const paymentStatusElement = document.getElementById("paymentStatus");
+const pickupDateElement = document.getElementById("pickupDate");
 
-const customerName = document.getElementById("customerName");
-const customerPhone = document.getElementById("customerPhone");
-const customerAddress = document.getElementById("customerAddress");
-const notes = document.getElementById("notes");
+const customerNameElement = document.getElementById("customerName");
+const customerPhoneElement = document.getElementById("customerPhone");
+const customerAddressElement = document.getElementById("customerAddress");
+const notesElement = document.getElementById("notes");
 
 const itemTable = document.getElementById("itemTable");
 
@@ -48,21 +48,33 @@ async function loadTransactionDetail() {
         const data = result.data;
 
         // Set status with appropriate class
-        statusText.textContent = data.status;
-        statusText.className = 'status-badge ' + getStatusClass(data.status);
+        statusTextElement.textContent = data.status;
+        statusTextElement.className = 'status-badge ' + getStatusClass(data.status);
         
-        totalPrice.textContent = data.total_price.toLocaleString();
+        totalPriceElement.textContent = data.total_price.toLocaleString();
         
         // Set payment status with appropriate class
-        paymentStatus.textContent = data.is_paid ? "Sudah Dibayar" : "Belum Dibayar";
-        paymentStatus.className = 'payment-badge ' + (data.is_paid ? 'payment-paid' : 'payment-unpaid');
+        paymentStatusElement.textContent = data.is_paid ? "Sudah Dibayar" : "Belum Dibayar";
+        paymentStatusElement.className = 'payment-badge ' + (data.is_paid ? 'payment-paid' : 'payment-unpaid');
         
-        pickupDate.textContent = data.pickup_date;
+        // Format pickup date to be more readable
+        if (data.pickup_date) {
+            const pickupDateValue = new Date(data.pickup_date);
+            const formattedDate = pickupDateValue.toLocaleDateString("id-ID", {
+                weekday: 'long',
+                day: 'numeric',
+                month: 'long',
+                year: 'numeric'
+            });
+            pickupDateElement.textContent = formattedDate;
+        } else {
+            pickupDateElement.textContent = "Belum ditentukan";
+        }
 
-        customerName.textContent = data.customer_name;
-        customerPhone.textContent = data.customer_phone;
-        customerAddress.textContent = data.customer_address;
-        notes.textContent = data.notes || "-";
+        customerNameElement.textContent = data.customer_name;
+        customerPhoneElement.textContent = data.customer_phone;
+        customerAddressElement.textContent = data.customer_address;
+        notesElement.textContent = data.notes || "-";
 
         renderItems(data.items);
 
