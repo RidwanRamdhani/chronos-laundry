@@ -106,18 +106,35 @@ function renderTracking(data) {
 function renderStatusBadge(status) {
     const statusBadge = document.getElementById("statusBadge");
     
+    // Normalize status untuk konsistensi
+    const statusMapping = {
+        'queued': 'Queued',
+        'washing': 'Washing',
+        'ironing': 'Ironing',
+        'ready to pick up': 'Ready to pick up',
+        'ready_to_pick_up': 'Ready to pick up',
+        'complete': 'Complete',
+        'completed': 'Complete'
+    };
+    
+    const normalizedStatus = statusMapping[status.toLowerCase()] || status;
+    
     const statusConfig = {
-        'Queued': { icon: 'clock', text: 'Queued' },
-        'Washing': { icon: 'water', text: 'Washing' },
-        'Ironing': { icon: 'fire', text: 'Ironing' },
-        'Ready to Pick Up': { icon: 'box', text: 'Ready to Pick Up' },
-        'Complete': { icon: 'check-circle', text: 'Completed' }
+        'Queued': { icon: 'clock', text: 'Queued', class: 'Queued' },
+        'Washing': { icon: 'water', text: 'Washing', class: 'Washing' },
+        'Ironing': { icon: 'fire', text: 'Ironing', class: 'Ironing' },
+        'Ready to pick up': { icon: 'box', text: 'Ready to Pick Up', class: 'Ready-to-pick-up' },
+        'Complete': { icon: 'check-circle', text: 'Completed', class: 'Complete' }
     };
 
-    const config = statusConfig[status] || { icon: 'info-circle', text: status };
+    const config = statusConfig[normalizedStatus] || { 
+        icon: 'info-circle', 
+        text: status,
+        class: normalizedStatus.replace(/\s+/g, '-')
+    };
     
     statusBadge.innerHTML = `
-        <div class="status-badge ${status.replace(/\s+/g, '-')}">
+        <div class="status-badge ${config.class}">
             <i class="fas fa-${config.icon}"></i>
             ${config.text}
         </div>
@@ -125,12 +142,27 @@ function renderStatusBadge(status) {
 }
 
 function highlightSteps(currentStatus) {
-    const steps = ["Queued", "Washing", "Ironing", "Ready to Pick Up", "Complete"];
-    const currentIndex = steps.indexOf(currentStatus);
+    const steps = ["Queued", "Washing", "Ironing", "Ready to pick up", "Complete"];
+    
+    // Normalize status untuk handle variasi dari backend
+    const statusMapping = {
+        'queued': 'Queued',
+        'washing': 'Washing',
+        'ironing': 'Ironing',
+        'ready to pick up': 'Ready to pick up',
+        'ready_to_pick_up': 'Ready to pick up',
+        'complete': 'Complete',
+        'completed': 'Complete'
+    };
+    
+    // Normalize status
+    const normalizedStatus = statusMapping[currentStatus.toLowerCase()] || currentStatus;
+    
+    const currentIndex = steps.indexOf(normalizedStatus);
 
     // If status not found, default to first step
     if (currentIndex === -1) {
-        console.warn(`Status "${currentStatus}" not found in steps array`);
+        console.error(`❌ Status "${currentStatus}" (normalized: "${normalizedStatus}") not found in steps array`);
         return;
     }
 
@@ -138,7 +170,7 @@ function highlightSteps(currentStatus) {
         const stepEl = document.querySelector(`.step-item[data-step="${step}"]`);
         
         if (!stepEl) {
-            console.warn(`Step element not found for: ${step}`);
+            console.warn(`⚠️ Step element not found for: ${step}`);
             return;
         }
         
@@ -162,25 +194,31 @@ function highlightSteps(currentStatus) {
         return;
     }
     
-    // Calculate progress percentage
-    // For 5 steps (0-4 indices), we want:
-    // Index 0 (antrian) = 0%
-    // Index 1 (mencuci) = 25%
-    // Index 2 (menyetrika) = 50%
-    // Index 3 (siap_diambil) = 75%
-    // Index 4 (selesai) = 100%
-    const progressPercentage = (currentIndex / (steps.length - 1)) * 100;
+    // Custom percentage mapping for each step
+    // Queued=0%, Washing=25%, Ironing=50%, Ready=75%, Complete=100%
+    const percentageMap = {
+        0: 7,    // Queued
+        1: 25,   // Washing
+        2: 50,   // Ironing
+        3: 72,   // Ready to pick up
+        4: 100   // Complete
+    };
     
-    // Reset to 0 first
+    // Get the progress percentage for current step
+    const progressPercentage = percentageMap[currentIndex] || 0;
+    
+    // Reset to 0 first for smooth animation
     progressLine.style.width = "0%";
     
-    // Force a reflow to ensure the reset is applied
-    progressLine.offsetHeight;
+    // Force reflow
+    void progressLine.offsetHeight;
     
-    // Animate to target width after a small delay
-    setTimeout(() => {
-        progressLine.style.width = progressPercentage + "%";
-    }, 100);
+    // Animate to target width
+    requestAnimationFrame(() => {
+        setTimeout(() => {
+            progressLine.style.width = progressPercentage + "%";
+        }, 50);
+    });
 }
 
 function renderTimeline(history) {

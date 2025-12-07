@@ -171,15 +171,17 @@
             color: #6f42c1;
         }
 
-        .status-badge.Ready.to.Pick.Up,
+        /* Handle both variations of Ready to pick up */
+        .status-badge.Ready-to-pick-up,
         .status-badge[class*="Ready"] {
             background: #d1e7dd;
             color: #0f5132;
         }
 
         .status-badge.Complete {
-            background: #d1e7dd;
+            background: #d4edda;
             color: #0a3622;
+            font-weight: 700;
         }
 
         /* Progress Steps */
@@ -188,6 +190,7 @@
             justify-content: space-between;
             margin: 40px 0;
             position: relative;
+            padding: 0;
         }
 
         .progress-steps::before {
@@ -208,8 +211,9 @@
             height: 4px;
             background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
             z-index: 1;
-            transition: width 0.8s ease;
+            transition: width 1s cubic-bezier(0.4, 0, 0.2, 1);
             width: 0%;
+            transform-origin: left center;
         }
 
         .step-item {
@@ -562,7 +566,7 @@
                     </div>
                     <div class="step-label">Ironing</div>
                 </div>
-                <div class="step-item" data-step="Ready to Pick Up">
+                <div class="step-item" data-step="Ready to pick up">
                     <div class="step-circle">
                         <i class="fas fa-box"></i>
                     </div>
