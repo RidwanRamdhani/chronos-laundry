@@ -1,4 +1,4 @@
-# Chronos Laundry 🧺
+# Chronos Laundry 
 
 [![Go Version](https://img.shields.io/badge/Go-1.25.4-00ADD8?logo=go)](https://golang.org/)
 [![Vite](https://img.shields.io/badge/Vite-7.2.4-646CFF?logo=vite)](https://vitejs.dev/)
@@ -6,19 +6,19 @@
 
 > A modern, full-stack laundry management system built with Go and Vite for efficient business operations, real-time tracking, and seamless customer experience.
 
-## 📖 Overview
+## Overview
 
 Chronos Laundry is a comprehensive laundry management solution designed to streamline operations for laundry businesses of all sizes. Built with a robust Go backend and a responsive Vite-powered frontend, it provides real-time transaction tracking, service management, and administrative controls.
 
 ### Key Highlights
 
-- 🚀 **High Performance** - Built with Go for fast, concurrent processing
-- 🎨 **Modern UI** - Responsive interface powered by Vite
-- 🔐 **Secure Authentication** - JWT-based authentication system
-- 📊 **Real-time Tracking** - Monitor transactions and status updates instantly
-- 💰 **Dynamic Pricing** - Flexible service pricing management
+- **High Performance** - Built with Go for fast, concurrent processing
+- **Modern UI** - Responsive interface powered by Vite
+- **Secure Authentication** - JWT-based authentication system
+- **Real-time Tracking** - Monitor transactions and status updates instantly
+- **Dynamic Pricing** - Flexible service pricing management
 
-## ✨ Features
+## Features
 
 ### Core Functionality
 
@@ -45,7 +45,7 @@ Chronos Laundry is a comprehensive laundry management solution designed to strea
   - Real-time status updates
   - Transparent process visibility
 
-## 🏗️ Architecture
+## Architecture
 
 ### Technology Stack
 
@@ -144,7 +144,7 @@ chronos-laundry/
 └── README.md                  # This file
 ```
 
-## 🚀 Getting Started
+## Getting Started
 
 ### Prerequisites
 
@@ -226,11 +226,11 @@ go run cmd/seeder/service_price_seeder/service_prices.go
 - **Email**: `admin@chronos-laundry.com`
 - **Full Name**: System Administrator
 
-⚠️ **Important**: To use custom admin credentials, edit the seeder file at [`backend/cmd/seeder/admin_seeder/admin.go`](backend/cmd/seeder/admin_seeder/admin.go:28) before running the seeder. Modify the username, password, email, and full name values as needed.
+**Important**: To use custom admin credentials, edit the seeder file at [`backend/cmd/seeder/admin_seeder/admin.go`](backend/cmd/seeder/admin_seeder/admin.go:28) before running the seeder. Modify the username, password, email, and full name values as needed.
 
 **Service Price Categories:**
 
-💡 **Tip**: To customize service prices, edit the seeder file at [`backend/cmd/seeder/service_price_seeder/service_prices.go`](backend/cmd/seeder/service_price_seeder/service_prices.go:25) before running the seeder. You can modify prices, add new items, or change service types as needed.
+**Tip**: To customize service prices, edit the seeder file at [`backend/cmd/seeder/service_price_seeder/service_prices.go`](backend/cmd/seeder/service_price_seeder/service_prices.go:25) before running the seeder. You can modify prices, add new items, or change service types as needed.
 
 The service price seeder includes:
 - **Regular Service** (reguler)
@@ -250,10 +250,10 @@ The service price seeder includes:
 - Sprei (Bed Sheet)
 
 **Seeder Features:**
-- ✅ Prevents duplicate entries
-- ✅ Automatically checks existing data
-- ✅ Safe to run multiple times
-- ✅ Provides detailed logging
+- Prevents duplicate entries
+- Automatically checks existing data
+- Safe to run multiple times
+- Provides detailed logging
 
 #### 5. Frontend Setup
 
@@ -302,7 +302,7 @@ npm run build
 npm run preview
 ```
 
-## 📚 API Documentation
+## API Documentation
 
 ### Authentication Endpoints
 
@@ -376,7 +376,7 @@ Authorization: Bearer <token>
 }
 ```
 
-## 🔧 Configuration
+## Configuration
 
 ### Environment Variables
 
@@ -407,7 +407,7 @@ Update API endpoint in JavaScript files if needed:
 const API_BASE_URL = 'http://localhost:8080/api';
 ```
 
-## 🧪 Testing
+## Testing
 
 ```bash
 # Run backend tests
@@ -421,7 +421,7 @@ go test -cover ./...
 go test -v ./...
 ```
 
-## 🤝 Contributing
+## Contributing
 
 We welcome contributions! Please follow these guidelines:
 
@@ -457,7 +457,7 @@ We welcome contributions! Please follow these guidelines:
 3. Code must follow project style guidelines
 4. Documentation must be updated if needed
 
-## 📄 License
+## License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
@@ -477,44 +477,44 @@ The above copyright notice and this permission notice shall be included in all
 copies or substantial portions of the Software.
 ```
 
-## 👥 Team
+## Team
 
 - **Contributors**: [View all contributors](https://github.com/RidwanRamdhani/chronos-laundry/graphs/contributors)
 
-## 💬 Support & Contact
+## Support & Contact
 
-- 📧 **Email**: ridwanramdhani@student.telkomuniversity.ac.id, daffarkananta10@gmail.com ,sanubarilegawa@student.telkomuniversity.ac.id
-- 🐛 **Bug Reports**: [GitHub Issues](https://github.com/RidwanRamdhani/chronos-laundry/issues)
-- 💡 **Feature Requests**: [GitHub Discussions](https://github.com/RidwanRamdhani/chronos-laundry/discussions)
-- 📖 **Documentation**: [Wiki](https://github.com/RidwanRamdhani/chronos-laundry/wiki)
+- **Email**: ridwanramdhani@student.telkomuniversity.ac.id, daffarkananta10@gmail.com ,sanubarilegawa@student.telkomuniversity.ac.id
+- **Bug Reports**: [GitHub Issues](https://github.com/RidwanRamdhani/chronos-laundry/issues)
+- **Feature Requests**: [GitHub Discussions](https://github.com/RidwanRamdhani/chronos-laundry/discussions)
+- **Documentation**: [Wiki](https://github.com/RidwanRamdhani/chronos-laundry/wiki)
 
-## 🗺️ Roadmap
+## Roadmap
 
 ### Version 1.0 (Current)
-- ✅ Core transaction management
-- ✅ Service price management
-- ✅ JWT authentication
-- ✅ Real-time tracking
+- Core transaction management
+- Service price management
+- JWT authentication
+- Real-time tracking
 
 ### Version 1.1 (Planned)
-- 🔄 Payment integration
-- 🔄 SMS/Email notifications
-- 🔄 Advanced reporting
-- 🔄 Multi-branch support
+- Payment integration
+- SMS/Email notifications
+- Advanced reporting
+- Multi-branch support
 
 ### Version 2.0 (Future)
-- 📱 Mobile application
-- 🤖 AI-powered scheduling
-- 📊 Advanced analytics dashboard
-- 🌐 Multi-language support
+- Mobile application
+- AI-powered scheduling
+- Advanced analytics dashboard
+- Multi-language support
 
-## 📊 Project Status
+## Project Status
 
 ![GitHub last commit](https://img.shields.io/github/last-commit/RidwanRamdhani/chronos-laundry)
 ![GitHub issues](https://img.shields.io/github/issues/RidwanRamdhani/chronos-laundry)
 ![GitHub pull requests](https://img.shields.io/github/issues-pr/RidwanRamdhani/chronos-laundry)
 
-## 🙏 Acknowledgments
+## Acknowledgments
 
 - [Gin Web Framework](https://gin-gonic.com/) - HTTP web framework
 - [GORM](https://gorm.io/) - ORM library for Go
@@ -527,8 +527,8 @@ copies or substantial portions of the Software.
 
 **[Website](https://chronoslaundry.com)** • **[Documentation](https://docs.chronoslaundry.com)** • **[Demo](https://demo.chronoslaundry.com)**
 
-Made with ❤️ by the Chronos Laundry Team
+Made by the Chronos Laundry Team
 
-⭐ Star us on GitHub — it motivates us a lot!
+Star us on GitHub — it motivates us a lot!
 
 </div>
